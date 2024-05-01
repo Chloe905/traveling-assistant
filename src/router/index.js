@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import SignIn from '../views/SignIn.vue'
 import NotFound from '../views/NotFound.vue'
+import HomePage from '../views/HomePage.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/signup',
     name: 'sign-up',
     component: () => import('../views/SignUp.vue')
+  },
+  {
+    path: '/',
+    name: 'home-page',
+    component: HomePage
   },
   {
     // path: '*', used in vue router 3 
