@@ -3,7 +3,7 @@
     <!-- Display trip cards -->
     <div v-if="trips.length">
       <div v-for="trip in trips" :key="trip.id">
-        <trip-card :trip="trip" @edit="editTrip"></trip-card>
+        <trip-card :trip="trip" @edit="editInfo" @dblclick="editTrip(trip.id)"></trip-card>
       </div>
     </div>
     <div v-else>
@@ -21,6 +21,7 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid'
+import axios from 'axios'
 import TripCard from '../components/TripCard.vue'
 import TripModal from '../components/TripModal.vue'
 
@@ -31,10 +32,7 @@ export default {
   },
   data () {
     return {
-      trips: [
-        { id: 1, name: 'Trip 1', dateStart: '2024-05-01', dateEnd: '2024-05-05', people: 2, banner: 'https://images.pexels.com/photos/10255590/pexels-photo-10255590.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load'},
-        { id: 2, name: 'Trip 2', dateStart: '2024-06-15', dateEnd: '2024-06-25', people: 3, banner: 'https://images.pexels.com/photos/10255590/pexels-photo-10255590.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load' },
-      ], 
+      trips: [], 
       showModal: false,
       modalMode: '', // Add or Edit mode
       selectedTrip: null // Selected trip data for editing
@@ -53,9 +51,14 @@ export default {
     },
   },
   methods: {
-    fetchTrips () {
-      // @TODO: Fetch trip data from backend API
-      // @TODO: Assign fetched data to this.trips
+    async fetchTrips () {
+      try {
+        const baseUrl = 'http://localhost:4000'
+        const response = await axios.get(`${baseUrl}/trips`)
+        this.trips = response.data || []
+      } catch (error) {
+        console.error('Error fetching trips:', error)
+      }
     },
     setModalMode (mode) {
       this.modalMode = mode
@@ -77,7 +80,6 @@ export default {
 
         this.trips.push(newTrip)
       } else if (this.modalMode === 'edit' && this.selectedTrip) {
-        console.log('saved data:', tripData)
         this.selectedTrip.name = tripData.name
         this.selectedTrip.dateStart = tripData.dateStart
         this.selectedTrip.dateEnd = tripData.dateEnd
@@ -86,7 +88,7 @@ export default {
       }
       this.closeModal()
     },
-    editTrip (trip) {
+    editInfo (trip) {
       this.selectedTrip = trip
       this.modalMode = 'edit'
       this.showModal = true
@@ -97,6 +99,9 @@ export default {
         this.trips.splice(index, 1)
       }
       this.closeModal()
+    },
+    editTrip (tripId) {
+      this.$router.push({ name: 'TripDetail', params: { id: tripId } })
     }
   }
 }

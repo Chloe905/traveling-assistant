@@ -29,15 +29,8 @@
 export default {
   name: 'TripCard',
   props: {
-    // use props to pass the trip data
     trip: Object
   },
-  // watch: {
-  //   trip(newTrip) {
-  //     // 在 trip 属性变化时执行相应操作，例如重新渲染组件
-  //     // 如果有需要，可以在这里执行其他逻辑
-  //   },
-  // },
   methods: {
     editTrip () {
       this.$emit('edit', this.trip)
@@ -53,6 +46,7 @@ export default {
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 16px;
+  cursor: pointer;
 }
 
 .card-container {

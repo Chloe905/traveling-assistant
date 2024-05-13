@@ -106,7 +106,6 @@ export default {
         this.formData.dateEnd = tempDate
       }
 
-      console.log('formData:', this.formData)
       this.$emit('save', this.formData)
       this.closeModal()
     },
@@ -148,6 +147,7 @@ export default {
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(5px);
+    overflow-y: auto;
   }
 
   .trip-modal .modal-dialog {
@@ -156,6 +156,7 @@ export default {
 
   .trip-modal .modal-content {
     color: beige;
+    padding: 50px;
   }
 
   .trip-modal button {
