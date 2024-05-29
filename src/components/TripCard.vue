@@ -33,6 +33,7 @@ export default {
   },
   methods: {
     editTrip () {
+      // this.$router.push({ name: 'TripModal', params: { id: this.trip.id } })
       this.$emit('edit', this.trip)
     }
   }

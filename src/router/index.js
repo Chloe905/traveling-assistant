@@ -26,6 +26,11 @@ const routes = [
     component: TripDetail
   },
   {
+    path: '/trips/:id/edit',
+    name: 'TripModal',
+    component: () => import('../components/TripModal.vue')
+  },
+  {
     // path: '*', used in vue router 3 
     path: '/:catchAll(.*)',
     name: 'not-found',

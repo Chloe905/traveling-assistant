@@ -69,22 +69,28 @@ export default {
       this.modalMode = ''
       this.selectedTrip = null
     },
-    saveTrip (tripData) {
-      // Handle saving the trip data
-      if (this.modalMode === 'add') {
-        // Add new trip
-        const newTrip = {
-          id: uuidv4(),
-          ...tripData
-        }
+    async saveTrip (tripData) {
+      const baseUrl = 'http://localhost:4000'
 
-        this.trips.push(newTrip)
-      } else if (this.modalMode === 'edit' && this.selectedTrip) {
-        this.selectedTrip.name = tripData.name
-        this.selectedTrip.dateStart = tripData.dateStart
-        this.selectedTrip.dateEnd = tripData.dateEnd
-        this.selectedTrip.people = tripData.people
-        this.selectedTrip.picture = tripData.picture
+      // Handle saving the trip data
+      try {
+        if (this.modalMode === 'add') {
+          // Add new trip
+          const newTrip = {
+            id: uuidv4(),
+            ...tripData
+          }
+          this.trips.push(newTrip)
+          await axios.post(`${baseUrl}/trips`, newTrip)
+        } else if (this.modalMode === 'edit' && this.selectedTrip) {
+          const index = this.trips.findIndex(trip => trip.id === this.selectedTrip.id)
+          if (index !== -1) {
+            this.trips[index] = { ...this.selectedTrip, ...tripData }
+            await axios.put(`${baseUrl}/trips/${this.selectedTrip.id}`, tripData)
+          }
+        }
+      } catch (error) {
+        console.error('Error saving trip:', error)
       }
       this.closeModal()
     },
@@ -93,10 +99,16 @@ export default {
       this.modalMode = 'edit'
       this.showModal = true
     },
-    deleteTrip (tripId) {
+    async deleteTrip (tripId) {
       const index = this.trips?.findIndex(trip => trip.id === tripId)
       if (index !== -1) {
-        this.trips.splice(index, 1)
+        try {
+          const baseUrl = 'http://localhost:4000'
+          await axios.delete(`${baseUrl}/trips/${tripId}`)
+          this.trips.splice(index, 1)
+        } catch (error) {
+          console.error('Error deleting trip:', error)
+        }
       }
       this.closeModal()
     },
