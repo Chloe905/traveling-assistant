@@ -1,7 +1,7 @@
 {
   "trips": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Trip 1",
       "dateStart": "2024-05-01",
       "dateEnd": "2024-05-05",
@@ -42,7 +42,7 @@
       ]
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Trip 2",
       "dateStart": "2024-06-15",
       "dateEnd": "2024-06-25",
@@ -86,7 +86,7 @@
       ]
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "Trip 3",
       "dateStart": "2024-05-01",
       "dateEnd": "2024-05-05",
@@ -129,13 +129,13 @@
   ],
   "spots": [
     {
-      "id": "1",
+      "id": 1,
       "spotName": "spot1",
       "description": "Description of spot1",
       "isFavorite": true
     },
     {
-      "id": "2",
+      "id": 2,
       "spotName": "spot2",
       "description": "Description of spot2",
       "isFavorite": true

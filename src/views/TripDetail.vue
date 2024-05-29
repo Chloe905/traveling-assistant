@@ -71,13 +71,30 @@ export default {
       const baseUrl = 'http://localhost:4000'
       const response = await axios.get(`${baseUrl}/trips/${tripId}`)
       this.trip = response.data || {}
+      this.trip.days = this.trip.days || []
+      this.selectDay(1) // Select day 1 by default
     } catch (error) {
       console.error('Error fetching trip details:', error)
     }
   },
   methods: {
+    async fetchSpotsForDay (tripId, dayId) {
+      try {
+        const baseUrl = 'http://localhost:4000'
+        const response = await axios.get(`${baseUrl}/trips/${tripId}?days=${dayId}`)
+        const spots = response.data || []
+        const dayIndex = this.trip.days.findIndex(d => d.id === dayId)
+        if (dayIndex !== -1) {
+          this.trip.days[dayIndex] = { ...this.trip.days[dayIndex], spots }
+        }
+      } catch (error) {
+        console.error('Error fetching spots:', error)
+      }
+    },
     selectDay (day) {
       this.currentDay = day
+      const tripId = this.$route.params.id
+      this.fetchSpotsForDay(tripId, day)
     },
     openAddSpotModal () {
       // Toggle showAddOptions to display the options
