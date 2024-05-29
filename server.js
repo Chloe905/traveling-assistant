@@ -14,7 +14,7 @@ server.get('/trips/:id', (req, res) => {
   const dayId = req.query.days
 
   // Find the trip by ID
-  const trip = db.get('trips').find({ id: parseInt(tripId) }).value()
+  const trip = db.get('trips').find({ id: tripId }).value()
 
   if (trip) {
     if (dayId) {
