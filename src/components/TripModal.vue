@@ -44,6 +44,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
+
 export default {
   props: {
     visible: Boolean,
@@ -90,7 +93,7 @@ export default {
         this.restoreFormData()
       }
     },
-    saveTrip () {
+    async saveTrip () {
       if (!this.formData.name || !this.formData.dateStart || !this.formData.dateEnd || !this.formData.people) {
         alert('Please fill in all required fields！')
         return
@@ -106,7 +109,24 @@ export default {
         this.formData.dateEnd = tempDate
       }
 
-      this.$emit('save', this.formData)
+      const baseUrl = 'http://localhost:4000'
+
+      try {
+        if (this.mode === 'add') {
+          // Add new trip
+          const newTrip = {
+            id: uuidv4(),
+            ...this.formData
+          }
+          await axios.post(`${baseUrl}/trips`, newTrip)
+        } else if (this.mode === 'edit') {
+          await axios.put(`${baseUrl}/trips/${this.formData.id}`, this.formData)
+        }
+        this.$emit('save', this.formData)
+      } catch (error) {
+        console.error('Error saving trip:', error)
+      }
+
       this.closeModal()
     },
     resetFormData () {
@@ -126,8 +146,20 @@ export default {
         this.deleteTrip()
       }
     },
-    deleteTrip () {
-      this.$emit('delete', this.tripData.id)
+    async deleteTrip () {
+      const baseUrl = 'http://localhost:4000'
+      const tripId = this?.tripData?.id
+
+      if (!tripId) {
+        return 
+      }
+
+      try {
+        await axios.delete(`${baseUrl}/trips/${tripId}`)
+        this.$emit('delete', tripId)
+      } catch (error) {
+        console.error('Error deleting trip:', error)
+      }
       this.closeModal()
     }
   }
