@@ -154,11 +154,12 @@ export default {
           // Add new spot
           const newSpot = {
             id: uuidv4(),
+            isFavorite: false,
+            description: '',
             ...updatedSpot
           }
           this.getSpotsForDay(this.currentDay).push(newSpot)
 
-          // @TODO: Save new spot to backend
           await this.saveSpotToBackend(newSpot)
         }
 
@@ -171,14 +172,13 @@ export default {
       try {
         const tripId = this.$route.params.id
         const baseUrl = 'http://localhost:4000'
-
         if (!tripId || !this.currentDay) {
           return
         }
 
-        // @TODO: use the correct route , now cannot put to the correct route
-        const response = await axios.post(`${baseUrl}/trips/${tripId}/days/${this.currentDay}/spots`, newSpot)
-        console.log('Spot saved successfully:', response.data)
+        const response = await axios.post(`${baseUrl}/trips/${tripId}?days=${this.currentDay}`, newSpot)
+
+        return response.data
   
       } catch (error) {
         console.error('Error saving spot to backend:', error)
