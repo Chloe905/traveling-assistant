@@ -128,7 +128,7 @@ export default {
         return []
       }
 
-      const selectedDay = this?.trip?.days.find(d => d.id === day) || {}
+      const selectedDay = this?.trip?.days.find(d => d.id == day) || {}
       
       if (selectedDay) {
         return selectedDay.spots || []
@@ -158,7 +158,18 @@ export default {
             description: '',
             ...updatedSpot
           }
-          this.getSpotsForDay(this.currentDay).push(newSpot)
+         
+          const selectedDay = this.trip.days.find(d => d.id == this.currentDay)
+          if (selectedDay) {
+            //If day already exist with spots
+            selectedDay.spots.push(newSpot)
+          } else {
+            // If day didn't exist with spots, create a new day then push
+            this.trip.days.push({
+              id: this.currentDay,
+              spots: [newSpot]
+            })
+          }
 
           await this.saveSpotToBackend(newSpot)
         }
