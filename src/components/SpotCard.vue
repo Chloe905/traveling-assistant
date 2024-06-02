@@ -9,15 +9,18 @@
         <!-- contents -->
         <div class="col-md-8 col-7">
           <div class="card-body text-start">
-            <p class="card-text"><i class="fa-solid fa-clock"></i>  {{ spot.time }}</p>
-            <h4 class="card-title"><i class="fa-solid fa-location-dot"></i>  {{ spot.spotName }}</h4>
-            <p class="card-text"><i class="fa-solid fa-circle-info"></i>  {{ spot.description }}</p>
+            <p class="card-text"><i class="fa-solid fa-clock"></i> {{ spot.time }}</p>
+            <h4 class="card-title"><i class="fa-solid fa-location-dot"></i> {{ spot.spotName }}</h4>
+            <p class="card-text"><i class="fa-solid fa-circle-info"></i> {{ spot.description }}</p>
           </div>
         </div>
-        <!-- <div class="col-md-1">
-          <button @click="openEditModal" class="btn btn-sm btn-outline-primary"><i
-              class="fa-solid fa-gear"></i>Edit</button>
-        </div> -->
+        <!-- edit btn -->
+        <div class="col-md-1">
+          <div class="top-right-icon">
+            <p @click="openEditModal" class="setting-icon"><i
+                class="fa-solid fa-gear"></i></p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -60,6 +63,26 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.top-right-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.setting-icon {
+  color: white;
+  background-color: grey;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 5px;
+  text-align: center;
+  line-height: 30px;
+  cursor: pointer;
 }
 
 .favorite-icon {

@@ -30,7 +30,7 @@
         <button @click="openAddSpotModal" class="btn btn-secondary add-spot-button"> {{ showAddOptions ? 'x' : '+' }}
         </button>
         <div v-if="showAddOptions" class="mb-3 mx-2">
-          <button @click="addFromFavorites" class="btn btn-secondary">Add From Favorites</button>
+          <!-- <button @click="addFromFavorites" class="btn btn-secondary">Add From Favorites</button> -->
           <button @click="addFromMap" class="btn btn-secondary">Add From Map</button>
           <button @click="manualAddSpot" class="btn btn-secondary">Simply Add Spot</button>
         </div>
@@ -129,10 +129,16 @@ export default {
       }
 
       const selectedDay = this?.trip?.days.find(d => d.id == day) || {}
-      
-      if (selectedDay) {
-        return selectedDay.spots || []
+      const spots = selectedDay.spots || []
+
+      // sort the spots by times(HH:mm)
+      if (!selectedDay || !spots) {
+        return []
       }
+     
+      return spots.sort((a, b) => {
+        return a.time.localeCompare(b.time) || []
+      })
     },
     async saveSpot (updatedSpot) {
       if (!this.currentDay) {
@@ -149,7 +155,8 @@ export default {
             return
           }
 
-          return currentDaySpots.splice(index, 1, updatedSpot)
+          currentDaySpots.splice(index, 1, updatedSpot)
+          await this.saveSpotToBackend(updatedSpot)
         } else {
           // Add new spot
           const newSpot = {
@@ -179,18 +186,24 @@ export default {
         console.error('Error saving spot:', error)
       }
     },
-    async saveSpotToBackend (newSpot) {
+    async saveSpotToBackend (spot) {
       try {
         const tripId = this.$route.params.id
         const baseUrl = 'http://localhost:4000'
+        let response
+
         if (!tripId || !this.currentDay) {
           return
         }
 
-        const response = await axios.post(`${baseUrl}/trips/${tripId}?days=${this.currentDay}`, newSpot)
+
+        if (this.selectedSpot) {
+          response = await axios.put(`${baseUrl}/trips/${tripId}?days=${this.currentDay}`, spot)
+        } else {
+          response = await axios.post(`${baseUrl}/trips/${tripId}?days=${this.currentDay}`, spot)
+        }
 
         return response.data
-  
       } catch (error) {
         console.error('Error saving spot to backend:', error)
         throw error

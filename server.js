@@ -64,20 +64,47 @@ server.post('/trips/:id', (req, res) => {
     console.log('New spot added successfully:', newSpot)
 
     return res.status(201).json(newSpot)
-    // if (dayId) {
-    //   // Find the day by ID within the trip
-    //   const dayIndex = trip.days.findIndex(day => day.id == dayId)
-    //   if (dayIndex !== -1) {
-    //     // Add the new spot to the day
-    //     trip.days[dayIndex].spots.push(newSpot)
-    //     db.write()
-    //     return res.status(201).json(newSpot)
-    //   }
-    //   return res.status(404).json({ error: 'Day not found' })
-    // }
-    // return res.status(400).json({ error: 'Day parameter is required' })
   }
   return res.status(404).json({ error: 'Trip not found' })
+})
+
+// Route to handle editing a spot
+server.put('/trips/:id', (req, res) => {
+  const db = router.db
+  const tripId = req.params.id
+  const dayId = req.query.days
+  const editedSpot = req.body
+
+  // Find the trip by ID
+  const trip = db.get('trips').find({ id: tripId }).value()
+
+
+  if (!trip) {
+    return res.status(404).json({ error: 'Trip not found' })
+  }
+
+  if (!trip.days) {
+    trip.days = []
+  }
+
+  let day = trip.days.find(day => day.id == dayId)
+
+  if (!day) {
+    return res.status(404).json({ error: 'Day not found' })
+  }
+
+  let spotIndex = day.spots.findIndex(spot => spot.id === editedSpot.id)
+
+  if (spotIndex !== -1) {
+    // Update existing spot
+    day.spots[spotIndex] = editedSpot
+  } else {
+    return res.status(404).json({ error: 'Spot not found' })
+  }
+  db.write()
+
+  console.log('Spot updated successfully:', editedSpot)
+  return res.status(200).json(editedSpot)
 })
 
 

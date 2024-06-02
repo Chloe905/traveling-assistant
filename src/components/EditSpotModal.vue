@@ -1,7 +1,7 @@
 <template>
   <div class="edit-spot-modal">
     <div class="spot-modal-content">
-      <h3>{{ selectedSpot ? 'Edit Spot' : 'Add New Spot' }}</h3>
+      <h3>{{ spot ? 'Edit Spot' : 'Add New Spot' }}</h3>
       <form @submit.prevent="saveSpot">
         <div class="form-group">
           <label for="spotName">Name</label>
@@ -18,6 +18,8 @@
         <div class="button-group">
           <button type="button" @click="closeModal" class="btn btn-secondary"><i class="fa-solid fa-ban"></i></button>
           <button type="submit" class="btn btn-light"><i class="fa-regular fa-floppy-disk"></i></button>
+          <!-- <button v-if="spot" class="btn btn-danger remove-btn" @click="confirmDelete"><i
+              class="fa-solid fa-trash"></i></button> -->
         </div>
       </form>
     </div>
@@ -27,11 +29,11 @@
 <script>
 export default {
   props: {
-    selectedSpot: Object
+    spot: Object
   },
   data () {
     return {
-      editedSpot: { ...this.selectedSpot }
+      editedSpot: {}
     }
   },
   methods: {
@@ -41,6 +43,14 @@ export default {
     },
     closeModal () {
       this.$emit('close')
+    }
+  },
+  watch: {
+    spot: {
+      immediate: true,
+      handler (newVal) {
+        this.editedSpot = { ...newVal }
+      }
     }
   }
 }

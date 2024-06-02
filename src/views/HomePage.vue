@@ -11,7 +11,7 @@
     </div>
 
     <!-- Button to create new trip plan -->
-    <button @click="setModalMode('add')" class="btn btn-primary mt-3 add-new-btn">+ Add New Trip</button>
+    <button @click="setModalMode('add')" class="btn btn-dark mt-3 add-new-btn">+ Add New Trip</button>
 
     <!-- Modal for creating new trip plan -->
     <trip-modal @close="closeModal" @save="saveTrip" @delete="deleteTrip" :visible="showModal" :mode="modalMode"
