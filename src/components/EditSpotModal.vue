@@ -15,11 +15,18 @@
           <label for="description">Description</label>
           <input type="text" v-model="editedSpot.description" class="form-control" id="description">
         </div>
+        <div v-if="spot" class="form-group">
+          <label for="image">Image</label>
+          <img v-if="editedSpot.banner" :src="editedSpot.banner" class="d-block img-thumbnail mb-3 mx-auto" width="150"
+            height="100">
+          <input id="image" type="file" name="image" accept="image/*" class="form-control form-control-file"
+            @change="handleFileChange">
+        </div>
         <div class="button-group">
           <button type="button" @click="closeModal" class="btn btn-secondary"><i class="fa-solid fa-ban"></i></button>
           <button type="submit" class="btn btn-light"><i class="fa-regular fa-floppy-disk"></i></button>
-          <!-- <button v-if="spot" class="btn btn-danger remove-btn" @click="confirmDelete"><i
-              class="fa-solid fa-trash"></i></button> -->
+          <button type="button" v-if="spot" class="btn btn-danger remove-btn" @click="confirmDelete"><i
+              class="fa-solid fa-trash"></i></button>
         </div>
       </form>
     </div>
@@ -37,13 +44,28 @@ export default {
     }
   },
   methods: {
+    handleFileChange (e) {
+      const { files } = e.target
+
+      if (files.length === 0) {
+        this.editedSpot.banner = ''
+      } else {
+        const imageURL = window.URL.createObjectURL(files[0])
+        this.editedSpot.banner = imageURL
+      }
+    },
     saveSpot () {
       this.$emit('save', this.editedSpot)
       this.closeModal()
     },
     closeModal () {
       this.$emit('close')
-    }
+    },
+    confirmDelete () {
+      if (confirm('Are you sure you want to delete this spot?')) {
+        this.$emit('delete', this.editedSpot.id)
+      }
+    }  
   },
   watch: {
     spot: {

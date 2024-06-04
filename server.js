@@ -107,6 +107,41 @@ server.put('/trips/:id', (req, res) => {
   return res.status(200).json(editedSpot)
 })
 
+server.delete('/trips/:id', (req, res) => {
+  const db = router.db
+  const tripId = req.params.id
+  const dayId = req.query.days
+  const spotId = req.query.spot
+  const trip = db.get('trips').find({ id: tripId }).value()
+
+  if (!trip) {
+    return res.status(404).json({ error: 'Trip not found' })
+  }
+
+  if (!spotId || !dayId) {
+    // delete whole trip
+    db.get('trips').remove({ id: tripId }).write()
+    return res.status(200).json({ message: 'Trip deleted successfully' })
+  }
+
+  if (spotId) {
+    // If spotId is provided, delete the specific spot
+    const day = trip.days.find(day => day.id == dayId)
+    if (!day) {
+      return res.status(404).json({ error: 'Day not found' })
+    }
+
+    const spotIndex = day.spots.findIndex(spot => spot.id == spotId)
+    if (spotIndex !== -1) {
+      day.spots.splice(spotIndex, 1)
+      db.write()
+
+      return res.status(200).json({ message: 'Spot deleted successfully' })
+    } else {
+      return res.status(404).json({ error: 'Spot not found' })
+    }
+  }
+})
 
 // Use default router
 server.use(router)

@@ -38,7 +38,8 @@
     </div>
 
 
-    <edit-spot-modal v-if="showEditSpotModal" :spot="selectedSpot" @save="saveSpot" @close="closeEditSpotModal">
+    <edit-spot-modal v-if="showEditSpotModal" :spot="selectedSpot" @save="saveSpot" @delete="handleDeleteSpot"
+      @close="closeEditSpotModal">
     </edit-spot-modal>
   </div>
 </template>
@@ -207,6 +208,26 @@ export default {
       } catch (error) {
         console.error('Error saving spot to backend:', error)
         throw error
+      }
+    },
+    async handleDeleteSpot (spotId) {
+      try {
+        const baseUrl = 'http://localhost:4000'
+        const tripId = this.$route.params.id
+        const dayId = this.currentDay
+        await axios.delete(`${baseUrl}/trips/${tripId}?days=${dayId}&spot=${spotId}`)
+
+        // Remove the spot from the local state
+        const selectedDay = this.trip.days.find(d => d.id == dayId)
+        if (selectedDay) {
+          const spotIndex = selectedDay.spots.findIndex(s => s.id === spotId)
+          if (spotIndex !== -1) {
+            selectedDay.spots.splice(spotIndex, 1)
+          }
+          this.closeEditSpotModal()
+        }
+      } catch (error) {
+        console.error('Error deleting spot:', error)
       }
     }
   },
