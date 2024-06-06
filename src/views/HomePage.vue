@@ -3,7 +3,8 @@
     <!-- Display trip cards -->
     <div v-if="trips.length">
       <div v-for="trip in trips" :key="trip.id">
-        <trip-card :trip="trip" @edit="editInfo" @dblclick="editTrip(trip.id)"></trip-card>
+        <trip-card :trip="trip" @edit="editInfo" @dblclick="handleDbClick(trip.id)"
+          @touchend="handleTouchStart(trip.id)"></trip-card>
       </div>
     </div>
     <div v-else>
@@ -20,10 +21,10 @@
 </template>
 
 <script>
-// import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 import TripCard from '../components/TripCard.vue'
 import TripModal from '../components/TripModal.vue'
+import debounce from 'lodash.debounce'
 
 export default {
   components: {
@@ -81,9 +82,9 @@ export default {
       this.closeModal()
     },
     editInfo (trip) {
-      this.selectedTrip = trip
-      this.modalMode = 'edit'
-      this.showModal = true
+        this.selectedTrip = trip
+        this.modalMode = 'edit'
+        this.showModal = true
     },
     deleteTrip (tripId) {
       const index = this.trips?.findIndex(trip => trip.id === tripId)
@@ -94,6 +95,14 @@ export default {
     },
     editTrip (tripId) {
       this.$router.push({ name: 'TripDetail', params: { id: tripId } })
+    },
+    handleDbClick (tripId) {
+      this.editTrip(tripId)
+    },
+    handleTouchStart (tripId) {
+      debounce(() => {
+        this.editTrip(tripId)
+      }, 300)()
     }
   }
 }

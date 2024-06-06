@@ -17,7 +17,8 @@
         </div>
         <div class="col-md-1">
           <div class="top-right-icon">
-            <p class="setting-icon" @click="editTrip"><i class="fa-solid fa-gear"></i></p>
+            <p class="setting-icon" @click.stop="handleIconClick" @touchend.stop="handleIconClick"><i
+                class="fa-solid fa-gear"></i></p>
           </div>
         </div>
       </div>
@@ -31,9 +32,12 @@ export default {
   props: {
     trip: Object
   },
+  emits: ['edit'],
   methods: {
+    handleIconClick () {
+      this.editTrip()
+    },
     editTrip () {
-      // this.$router.push({ name: 'TripModal', params: { id: this.trip.id } })
       this.$emit('edit', this.trip)
     }
   }
