@@ -1,11 +1,21 @@
 <template>
-  <router-view/>
+  <div id="trips-forum">
+    <NavBar />
+    <main role="main" class="mt-5 bg-white">
+      <router-view />
+    </main>
+
+  </div>
 </template>
 
 <script>
 import 'bootstrap/dist/css/bootstrap.min.css'
+import NavBar from './components/NavBar'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    NavBar
+  }
 }
 </script>
 

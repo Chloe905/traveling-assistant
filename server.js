@@ -1,21 +1,62 @@
 const jsonServer = require('json-server')
+const auth = require('json-server-auth')
+const path = require('path')
+const authenticateToken = require('./authMiddleware')
+const dotenv = require('dotenv')
+const { v4: uuid } = require('uuid')
+
+dotenv.config()
 
 const server = jsonServer.create()
-const router = jsonServer.router('db.json')
+const router = jsonServer.router(path.join(__dirname, 'db.json'))
 const middlewares = jsonServer.defaults()
 const PORT = 4000
 
+const rules = auth.rewriter({
+  users: 600,
+  trips: 660,
+  'trips/:id': 660
+})
+
 server.use(middlewares)
 server.use(jsonServer.bodyParser)
+server.use(rules)
+server.use(auth)
+server.db = router.db   
+server.use(authenticateToken)
+
+server.get('/trips', (req, res) => {
+  const db = router.db
+  const userId = parseInt(req.user.sub, 10)
+  const trips = db.get('trips').filter({ userId }).value()
+  return res.json(trips)
+})
+
+server.post('/trips', (req, res) => {
+  const db = router.db
+  const userId = parseInt(req.user.sub, 10)
+
+  const newTrip = {
+    id: uuid(),
+    userId,
+    ...req.body,
+  }
+
+  db.get('trips').push(newTrip).write()
+  return res.status(201).json(newTrip)
+})
 
 // Route to handle query parameters for days
 server.get('/trips/:id', (req, res) => {
   const db = router.db
   const tripId = req.params.id
   const dayId = req.query.days
+  const userId = parseInt(req.user.sub, 10)
 
   // Find the trip by ID
-  const trip = db.get('trips').find({ id: tripId }).value()
+  const trips = db.get('trips').filter({ userId }).value()
+
+  const trip = trips.find({ id: tripId }).value()
 
   if (trip) {
     if (dayId) {
@@ -40,6 +81,7 @@ server.post('/trips/:id', (req, res) => {
   const db = router.db
   const tripId = req.params.id
   const dayId = req.query.days
+  const userId = parseInt(req.user.sub, 10)
   const newSpot = req.body
 
   // Find the trip by ID
@@ -143,9 +185,7 @@ server.delete('/trips/:id', (req, res) => {
   }
 })
 
-// Use default router
 server.use(router)
-
 server.listen(PORT, () => {
   console.log('JSON Server is running on port 4000')
 })

@@ -44,8 +44,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { v4 as uuidv4 } from 'uuid'
+import { apiHelper } from '../../src/utils/helper'
 
 export default {
   props: {
@@ -112,15 +111,23 @@ export default {
       const baseUrl = 'http://localhost:4000'
 
       try {
+        const userId = this.$store.state.user.id
+        const token = localStorage.getItem('token')
+        const headers = { Authorization: `Bearer ${token}` }
         if (this.mode === 'add') {
           // Add new trip
           const newTrip = {
-            id: uuidv4(),
-            ...this.formData
+            ...this.formData,
+            userId
           }
-          await axios.post(`${baseUrl}/trips`, newTrip)
+
+          await apiHelper.post(`${baseUrl}/trips`, newTrip, { headers })
         } else if (this.mode === 'edit') {
-          await axios.put(`${baseUrl}/trips/${this.formData.id}`, this.formData)
+          if (!this.formData.id && this.mode === 'edit') {
+            alert('Please select a trip to edit.')
+            return
+          }
+          await apiHelper.put(`${baseUrl}/trips/${this.formData.id}`, { ...this.formData, userId}, { headers })
         }
         this.$emit('save', this.formData)
       } catch (error) {
@@ -155,7 +162,7 @@ export default {
       }
 
       try {
-        await axios.delete(`${baseUrl}/trips/${tripId}`)
+        await apiHelper.delete(`${baseUrl}/trips/${tripId}`)
         this.$emit('delete', tripId)
       } catch (error) {
         console.error('Error deleting trip:', error)

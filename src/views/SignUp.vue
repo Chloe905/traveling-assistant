@@ -31,7 +31,7 @@
           placeholder="Password" autocomplete="new-password" required>
       </div>
 
-      <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">
+      <button class="btn btn-lg btn-primary btn-block mb-3" type="submit" :disabled="isProcessing">
         Submit
       </button>
 
@@ -50,37 +50,55 @@
   </div>
 </template>
 <script>
+import authorizationAPI from '../apis/authorization'
+import { mapActions } from 'vuex'
+
 export default {
-  data() {
+  data () {
     return {
       name: '',
       email: '',
       password: '',
-      passwordCheck: ''
+      passwordCheck: '',
+      isProcessing: false
     }
   },
   methods: {
-    handleSubmit() {
+    ...mapActions(['login']),
+    async handleSubmit () {
+      this.isProcessing = true
       // Check if any field is empty
       if (!this.name || !this.email || !this.password || !this.passwordCheck) {
         alert('Please fill in all fields')
+        this.isProcessing = false
         return
       }
 
       // Stop form submission if passwords don't match
       if (this.password !== this.passwordCheck) {
         alert('Passwords do not match')
+        this.isProcessing = false
         return
       }
 
-      const data = JSON.stringify({
+      const data = {
         name: this.name,
         email: this.email,
-        password: this.password,
-        passwordCheck: this.passwordCheck
-      })
-      // @TODO: 向後端送出註冊資訊
-      console.log('data', data)
+        password: this.password
+      }
+
+      try {
+        await authorizationAPI.signUp(data)
+        
+        alert('Sign up successful! Please log in.')
+        this.$router.push('/signin')
+      } catch (error) {
+        this.isProcessing = false
+        console.error('Error Sign up:', error)
+        alert('Sign Up Failed.')
+      } finally {
+        this.isProcessing = false
+      }
     }
   }
 }

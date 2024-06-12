@@ -31,7 +31,7 @@
         </button>
         <div v-if="showAddOptions" class="mb-3 mx-2">
           <!-- <button @click="addFromFavorites" class="btn btn-secondary">Add From Favorites</button> -->
-          <button @click="addFromMap" class="btn btn-secondary">Add From Map</button>
+          <!-- <button @click="addFromMap" class="btn btn-secondary">Add From Map</button> -->
           <button @click="manualAddSpot" class="btn btn-secondary">Simply Add Spot</button>
         </div>
       </div>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { apiHelper } from '../../src/utils/helper'
 import { v4 as uuidv4 } from 'uuid'
 import SpotCard from '../components/SpotCard.vue'
 import EditSpotModal from '../components/EditSpotModal.vue'
@@ -70,7 +70,7 @@ export default {
     try {
       const tripId = this.$route.params.id
       const baseUrl = 'http://localhost:4000'
-      const response = await axios.get(`${baseUrl}/trips/${tripId}`)
+      const response = await apiHelper.get(`${baseUrl}/trips/${tripId}`)
       this.trip = response.data || {}
       this.trip.days = this.trip.days || []
       this.selectDay(1) // Select day 1 by default
@@ -82,7 +82,7 @@ export default {
     async fetchSpotsForDay (tripId, dayId) {
       try {
         const baseUrl = 'http://localhost:4000'
-        const response = await axios.get(`${baseUrl}/trips/${tripId}?days=${dayId}`)
+        const response = await apiHelper.get(`${baseUrl}/trips/${tripId}?days=${dayId}`)
         const spots = response.data || []
         const dayIndex = this.trip.days.findIndex(d => d.id === dayId)
         if (dayIndex !== -1) {
@@ -146,6 +146,8 @@ export default {
         return
       }
 
+      const userId = this.$store.state.user.id
+      
       try {
         if (this.selectedSpot) {
           // Edit existing spot
@@ -164,6 +166,7 @@ export default {
             id: uuidv4(),
             isFavorite: false,
             description: '',
+            userId,
             ...updatedSpot
           }
          
@@ -190,6 +193,8 @@ export default {
     async saveSpotToBackend (spot) {
       try {
         const tripId = this.$route.params.id
+        const token = localStorage.getItem('token')
+        const headers = { Authorization: `Bearer ${token}` }
         const baseUrl = 'http://localhost:4000'
         let response
 
@@ -199,9 +204,9 @@ export default {
 
 
         if (this.selectedSpot) {
-          response = await axios.put(`${baseUrl}/trips/${tripId}?days=${this.currentDay}`, spot)
+          response = await apiHelper.put(`${baseUrl}/trips/${tripId}?days=${this.currentDay}`, spot, { headers })
         } else {
-          response = await axios.post(`${baseUrl}/trips/${tripId}?days=${this.currentDay}`, spot)
+          response = await apiHelper.post(`${baseUrl}/trips/${tripId}?days=${this.currentDay}`, spot, { headers })
         }
 
         return response.data
@@ -215,7 +220,7 @@ export default {
         const baseUrl = 'http://localhost:4000'
         const tripId = this.$route.params.id
         const dayId = this.currentDay
-        await axios.delete(`${baseUrl}/trips/${tripId}?days=${dayId}&spot=${spotId}`)
+        await apiHelper.delete(`${baseUrl}/trips/${tripId}?days=${dayId}&spot=${spotId}`)
 
         // Remove the spot from the local state
         const selectedDay = this.trip.days.find(d => d.id == dayId)

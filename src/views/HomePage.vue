@@ -21,10 +21,10 @@
 </template>
 
 <script>
-import axios from 'axios'
 import TripCard from '../components/TripCard.vue'
 import TripModal from '../components/TripModal.vue'
 import debounce from 'lodash.debounce'
+import { apiHelper } from '../../src/utils/helper'
 
 export default {
   components: {
@@ -39,8 +39,7 @@ export default {
       selectedTrip: null // Selected trip data for editing
     }
   },
-  mounted () {
-    // Fetch trip data when the component is mounted
+  created () {
     this.fetchTrips()
   },
   watch: {
@@ -54,8 +53,7 @@ export default {
   methods: {
     async fetchTrips () {
       try {
-        const baseUrl = 'http://localhost:4000'
-        const response = await axios.get(`${baseUrl}/trips`)
+        const response = await apiHelper.get('/trips')
         this.trips = response.data || []
       } catch (error) {
         console.error('Error fetching trips:', error)

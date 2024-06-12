@@ -19,7 +19,7 @@
           placeholder="Password" autocomplete="current-password" required>
       </div>
 
-      <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">
+      <button class="btn btn-lg btn-primary btn-block mb-3" type="submit" :disabled="isProcessing">
         Submit
       </button>
 
@@ -37,21 +37,43 @@
 </template>
 
 <script>
+import authorizationAPI from '../apis/authorization'
+import { mapActions } from 'vuex'
+
 export default {
-  data() {
+  data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      isProcessing: false
     }
   },
   methods: {
-    handleSubmit() {
-      const data = JSON.stringify({
-        email: this.email,
-        password: this.password
-      })
-      // @TODO: 向後端驗證使用者登入資訊是否合法
-      console.log('data', data)
+    ...mapActions(['login']),
+    async handleSubmit () {
+      this.isProcessing = true
+
+      try {
+        const response = await authorizationAPI.signIn({
+          email: this.email,
+          password: this.password
+        })
+
+        const { data: loginData } = response
+        const token = response?.data?.accessToken
+        const user = response?.data?.user
+        if (token && user) {
+          localStorage.setItem('token', token)
+          localStorage.setItem('user', JSON.stringify(user))
+
+          this.login(loginData.user)
+          this.$router.push('/trips')
+        }
+      } catch (error) {
+        this.isProcessing = false
+        console.error('Error logging in:', error)
+        alert('Sign in failed. Please check your credentials.')
+      }
     }
   }
 }
