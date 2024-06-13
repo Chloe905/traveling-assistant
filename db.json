@@ -1,7 +1,22 @@
 {
+  "users": [
+    {
+      "email": "user1@example.com",
+      "password": "$2a$10$gYRMx9xEfGKwI6sVcoR13.YR9VQTAdbLCygdNPQkPJfZ8mKZ1.kjC",
+      "name": "user1",
+      "id": 1
+    },
+    {
+      "email": "user2@example.com",
+      "password": "$2a$10$GuUMcW8AMeSFNphLx1l5L.rIMmxNBA6i1b6kHldqKrr2YGMHgjRwy",
+      "name": "user2",
+      "id": 2
+    }
+  ],
   "trips": [
     {
       "id": "1",
+      "userId": 1,
       "name": "Trip 1",
       "dateStart": "2024-05-01",
       "dateEnd": "2024-05-05",
@@ -55,6 +70,7 @@
     },
     {
       "id": "2",
+      "userId": 1,
       "name": "Trip 2",
       "dateStart": "2024-06-15",
       "dateEnd": "2024-06-25",
@@ -99,6 +115,7 @@
     },
     {
       "id": "3",
+      "userId": 1,
       "name": "Trip 3",
       "dateStart": "2024-05-01",
       "dateEnd": "2024-05-05",

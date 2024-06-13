@@ -22,19 +22,36 @@ server.use(middlewares)
 server.use(jsonServer.bodyParser)
 server.use(rules)
 server.use(auth)
-server.db = router.db   
+server.db = router.db
 server.use(authenticateToken)
 
 server.get('/trips', (req, res) => {
   const db = router.db
+
+  if (!req.user || !req.user.sub) {
+    return res.status(400).json({ error: 'Invalid user information' })
+  }
+
   const userId = parseInt(req.user.sub, 10)
-  const trips = db.get('trips').filter({ userId }).value()
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' })
+  }
+
+  const trips = db.get('trips').filter({ userId }).value() || []
   return res.json(trips)
 })
 
 server.post('/trips', (req, res) => {
   const db = router.db
+
+  if (!req.user || !req.user.sub) {
+    return res.status(400).json({ error: 'Invalid user information' })
+  }
+
   const userId = parseInt(req.user.sub, 10)
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' })
+  }
 
   const newTrip = {
     id: uuid(),
@@ -51,29 +68,38 @@ server.get('/trips/:id', (req, res) => {
   const db = router.db
   const tripId = req.params.id
   const dayId = req.query.days
+
+  if (!req.user || !req.user.sub) {
+    return res.status(400).json({ error: 'Invalid user information' })
+  }
+
   const userId = parseInt(req.user.sub, 10)
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' })
+  }
 
   // Find the trip by ID
-  const trips = db.get('trips').filter({ userId }).value()
+  const trips = db.get('trips').filter({ userId }).value() || []
+  const trip = trips.find(trip => trip.id === tripId)
 
-  const trip = trips.find({ id: tripId }).value()
-
-  if (trip) {
-    if (dayId) {
-      // Find the day by ID within the trip
-      const day = trip.days.find(day => day.id === dayId)
-
-      if (!day) {
-        return
-        // return res.status(404).json({ error: 'Day not found' })
-      }
-      if (day && day.spots) {
-        return res.json(day.spots)
-      }
-    }
-    return res.json(trip)
+  if (!trip) {
+    return res.status(404).json({ error: 'Trip not found' })
   }
-  return res.status(404).json({ error: 'Trip not found' })
+  if (dayId) {
+    // Find the day by ID within the trip
+    if (!trip.days) {
+      trip.days = []
+    }
+    const day = trip.days.find(day => day.id == dayId)
+
+    if (!day) {
+      return
+    }
+    if (day && day.spots) {
+      return res.json(day.spots)
+    }
+  }
+  return res.json(trip)
 })
 
 // Route to handle adding a new spot
@@ -81,33 +107,45 @@ server.post('/trips/:id', (req, res) => {
   const db = router.db
   const tripId = req.params.id
   const dayId = req.query.days
-  const userId = parseInt(req.user.sub, 10)
   const newSpot = req.body
 
-  // Find the trip by ID
-  const trip = db.get('trips').find({ id: tripId }).value()
-
-  if (trip) {
-    if (!trip.days) {
-      trip.days = []
-    }
-
-    let day = trip.days.find(day => day.id == dayId)
-
-    if (!day) {
-      day = { id: dayId, spots: [] }
-      trip.days.push(day)
-    }
-
-    // Add the new spot to the day
-    day.spots.push(newSpot)
-    db.write()
-
-    console.log('New spot added successfully:', newSpot)
-
-    return res.status(201).json(newSpot)
+  if (!req.user || !req.user.sub) {
+    return res.status(400).json({ error: 'Invalid user information' })
   }
-  return res.status(404).json({ error: 'Trip not found' })
+
+  const userId = parseInt(req.user.sub, 10)
+
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' })
+  }
+
+  // Find the trip by ID
+  const trips = db.get('trips').filter({ userId }).value() || []
+  const trip = trips.find(trip => trip.id === tripId)
+
+  if (!trip) {
+    return res.status(404).json({ error: 'Trip not found' })
+  }
+
+  if (!trip.days) {
+    trip.days = []
+  }
+
+  let day = trip.days.find(day => day.id == dayId)
+  if (!day) {
+    day = { id: dayId, spots: [] }
+    trip.days.push(day)
+  }
+
+  if (!day.spots) {
+    day.spots = []
+  }
+  // Add the new spot to the day
+  day.spots.push(newSpot)
+
+  db.write()
+
+  return res.status(201).json(newSpot)
 })
 
 // Route to handle editing a spot
@@ -117,9 +155,19 @@ server.put('/trips/:id', (req, res) => {
   const dayId = req.query.days
   const editedSpot = req.body
 
-  // Find the trip by ID
-  const trip = db.get('trips').find({ id: tripId }).value()
+  if (!req.user || !req.user.sub) {
+    return res.status(400).json({ error: 'Invalid user information' })
+  }
 
+  const userId = parseInt(req.user.sub, 10)
+
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' })
+  }
+
+  // Find the trip by ID
+  const trips = db.get('trips').filter({ userId }).value() || []
+  const trip = trips.find(trip => trip.id === tripId)
 
   if (!trip) {
     return res.status(404).json({ error: 'Trip not found' })
@@ -145,7 +193,6 @@ server.put('/trips/:id', (req, res) => {
   }
   db.write()
 
-  console.log('Spot updated successfully:', editedSpot)
   return res.status(200).json(editedSpot)
 })
 
@@ -154,7 +201,19 @@ server.delete('/trips/:id', (req, res) => {
   const tripId = req.params.id
   const dayId = req.query.days
   const spotId = req.query.spot
-  const trip = db.get('trips').find({ id: tripId }).value()
+
+  if (!req.user || !req.user.sub) {
+    return res.status(400).json({ error: 'Invalid user information' })
+  }
+
+  const userId = parseInt(req.user.sub, 10)
+
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' })
+  }
+
+  const trips = db.get('trips').filter({ userId }).value() || []
+  const trip = trips.find(trip => trip.id === tripId)
 
   if (!trip) {
     return res.status(404).json({ error: 'Trip not found' })
