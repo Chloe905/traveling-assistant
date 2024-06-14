@@ -7,11 +7,6 @@ Travel Assistant is a travel assistant application that allows users to register
 - [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
-- [API](#api)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 
