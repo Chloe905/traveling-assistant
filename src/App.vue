@@ -1,7 +1,7 @@
 <template>
   <div id="trips-forum">
     <NavBar />
-    <main role="main" class="mt-5 bg-white">
+    <main role="main" class="bg-white main-outline">
       <router-view />
     </main>
 
@@ -10,6 +10,7 @@
 
 <script>
 import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap'
 import NavBar from './components/NavBar'
 export default {
   name: 'App',
@@ -26,6 +27,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+.main-outline {
+  padding-top: 56px;
 }
 
 nav {

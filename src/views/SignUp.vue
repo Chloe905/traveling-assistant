@@ -31,7 +31,7 @@
           placeholder="Password" autocomplete="new-password" required>
       </div>
 
-      <button class="btn btn-lg btn-primary btn-block mb-3" type="submit" :disabled="isProcessing">
+      <button class="btn btn-lg btn-secondary btn-block mb-3" type="submit" :disabled="isProcessing">
         Submit
       </button>
 

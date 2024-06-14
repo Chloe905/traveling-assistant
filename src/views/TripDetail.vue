@@ -307,7 +307,7 @@ export default {
 
 .back-btn {
   position: fixed;
-  top: 20px;
+  top: 76px;
   left: 20px;
   border-radius: 50%;
 }

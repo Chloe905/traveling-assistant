@@ -1,32 +1,42 @@
 <template>
   <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
-    <router-link class="navbar-brand" to="/">
-      my travel assistant
-    </router-link>
+    <div class="container-fluid">
+      <router-link class="navbar-brand ms-4" to="/trips">
+        Travel Assistant
+      </router-link>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon" />
-    </button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div id="navbarSupportedContent" class="navbar-collapse collapse">
-      <div class="ml-auto d-flex align-items-center">
-        <template v-if="isAuthenticated && user">
-          <router-link to="#" class="text-white mr-3">
-            {{ user.name }} 您好
-          </router-link>
-          <button type="button" class="btn btn-sm btn-outline-success my-2 my-sm-0" @click="handleLogout">
-            登出
-          </button>
-        </template>
-        <template v-else>
-          <router-link to="/signin" class="btn btn-sm btn-outline-success my-2 my-sm-0">
-            登入
-          </router-link>
-          <router-link to="/signup" class="btn btn-sm btn-outline-primary my-2 my-sm-0 ml-2">
-            註冊
-          </router-link>
-        </template>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <template v-if="isAuthenticated && user">
+            <li class="nav-item">
+              <router-link to="#" class="nav-link text-white me-3">
+                Hi {{ user.name }}
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-sm btn-outline-light my-2 my-sm-1 ms-2" @click="handleLogout">
+                LogOut
+              </button>
+            </li>
+          </template>
+          <template v-else>
+            <li class="nav-item">
+              <router-link to="/signin" class="btn btn-sm btn-outline-light ms-2 my-2 my-sm-0">
+                LogIn
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/signup" class="btn btn-sm btn-outline-secondary my-2 my-sm-1 ms-2">
+                SignUp
+              </router-link>
+            </li>
+          </template>
+        </ul>
       </div>
     </div>
   </nav>
@@ -48,3 +58,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.navbar-nav .nav-item {
+  display: flex;
+  align-items: center;
+}
+</style>
