@@ -35,4 +35,7 @@ Travel Assistant is a travel assistant application that allows users to register
 4. Start the backend:
    npm run start
 5. Open http://localhost:8080 in your browser
+6. Now you can try by this account or, sign up one to login:
+   - user1@example.com
+   - 123123123
 
