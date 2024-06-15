@@ -168,9 +168,21 @@ server.put('/trips/:id', (req, res) => {
   // Find the trip by ID
   const trips = db.get('trips').filter({ userId }).value() || []
   const trip = trips.find(trip => trip.id === tripId)
+  const updatedTrip = { ...trip, ...req.body }
 
   if (!trip) {
     return res.status(404).json({ error: 'Trip not found' })
+  }
+
+  // edit trip data only
+  if (!dayId) {
+    trips[tripId] = updatedTrip
+    db.get('trips')
+      .find({ id: tripId })
+      .assign(updatedTrip)
+      .write()
+
+    return res.status(200).json(updatedTrip)
   }
 
   if (!trip.days) {
@@ -178,11 +190,10 @@ server.put('/trips/:id', (req, res) => {
   }
 
   let day = trip.days.find(day => day.id == dayId)
-
+  // edit spots in trip
   if (!day) {
     return res.status(404).json({ error: 'Day not found' })
   }
-
   let spotIndex = day.spots.findIndex(spot => spot.id === editedSpot.id)
 
   if (spotIndex !== -1) {
@@ -191,6 +202,7 @@ server.put('/trips/:id', (req, res) => {
   } else {
     return res.status(404).json({ error: 'Spot not found' })
   }
+
   db.write()
 
   return res.status(200).json(editedSpot)
