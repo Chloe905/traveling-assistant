@@ -6,7 +6,9 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/trips'
+      name: 'landing',
+      component: () => import('@/views/LandingPage.vue'),
+      meta: { public: true, fullBleed: true }
     },
     {
       path: '/signin',

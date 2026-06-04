@@ -11,6 +11,7 @@ This is an AI travel itinerary assistant built with Vue 3 and Vite. The app help
 - Styling: Tailwind CSS 3.x with Morandi-inspired design tokens.
 - Backend/data: Supabase Auth and Supabase Postgres with RLS policies.
 - API client: `@supabase/supabase-js`; keep API access in service-layer modules.
+- Internationalization: support English, Traditional Chinese, and Japanese for user-facing UI copy.
 - Testing: Vitest for unit tests and Playwright for E2E tests.
 
 ## Banned Kits
@@ -54,6 +55,14 @@ This is an AI travel itinerary assistant built with Vue 3 and Vite. The app help
 - Use computed state for derived values.
 - Do not mutate props directly.
 - Keep route components lazy loaded when adding new pages.
+- When adding user-facing copy, prepare wording for English, Traditional Chinese, and Japanese.
+
+## Language Requirements
+- Supported languages: English (`en`), Traditional Chinese (`zh-TW`), and Japanese (`ja`).
+- Traditional Chinese copy should use Taiwan-friendly wording.
+- Japanese copy should use natural product UI wording, not machine-literal translation.
+- Keep route names, file names, and code identifiers in English.
+- Do not mix multiple languages inside the same UI label unless the design intentionally calls for it.
 
 ## Tailwind and UI Requirements
 - Tailwind utility classes are allowed and preferred for layout and component styling.
