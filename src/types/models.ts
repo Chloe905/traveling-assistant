@@ -1,13 +1,13 @@
 export type SpotPriority = 'must' | 'high' | 'medium' | 'low'
 
 export interface User {
-  id: number
+  id: number | string
   email: string
   name: string
 }
 
 export interface Collaborator {
-  id?: number
+  id?: number | string
   guestId?: string
   email?: string
   name: string
@@ -46,8 +46,8 @@ export interface TripDay {
 
 export interface Trip {
   id: string
-  userId: number
-  ownerId: number
+  userId: number | string
+  ownerId: number | string
   name: string
   dateStart: string
   dateEnd: string
@@ -101,7 +101,7 @@ export interface InvitePreview {
   dateStart: string
   dateEnd: string
   people: number
-  ownerId: number
+  ownerId: number | string
 }
 
 export interface AcceptInviteResult {
