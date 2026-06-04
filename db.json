@@ -11,27 +11,314 @@
       "password": "$2a$10$GuUMcW8AMeSFNphLx1l5L.rIMmxNBA6i1b6kHldqKrr2YGMHgjRwy",
       "name": "user2",
       "id": 2
+    },
+    {
+      "email": "cchloehsieh@gmail.com",
+      "password": "$2a$10$HvGuOC/itHh7n559hAMW1.2217bilmHqFjCZG0wPSDsVstHcae5Qi",
+      "name": "chloe",
+      "id": 3
     }
   ],
   "trips": [
     {
-      "id": "1",
-      "userId": 1,
-      "name": "Trip 1",
-      "dateStart": "2024-05-01",
-      "dateEnd": "2024-05-05",
-      "people": 2,
-      "banner": "https://images.pexels.com/photos/10255590/pexels-photo-10255590.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load",
+      "candidateSpots": [],
+      "collaborators": [],
       "days": [
         {
           "id": "1",
           "spots": [
             {
-              "id": "1",
-              "spotName": "行程 1111",
-              "time": "15:00",
-              "description": "行程 1 的",
-              "isFavorite": true
+              "id": "4176df43-f775-465f-9204-529e542f09b4",
+              "spotName": "成田機場",
+              "category": "sightseeing",
+              "address": "",
+              "durationMinutes": 90,
+              "openTime": "09:00",
+              "closeTime": "21:00",
+              "priority": "medium",
+              "notes": "",
+              "time": "19:30",
+              "timeStart": "19:30",
+              "timeEnd": "20:00",
+              "transportMinutes": 0,
+              "transportNote": "手動加入，可自行補上交通方式。",
+              "aiReason": ""
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "spots": []
+        },
+        {
+          "id": "3",
+          "spots": []
+        },
+        {
+          "id": "4",
+          "spots": []
+        },
+        {
+          "id": "5",
+          "spots": []
+        },
+        {
+          "id": "6",
+          "spots": []
+        },
+        {
+          "id": "7",
+          "spots": []
+        },
+        {
+          "id": "8",
+          "spots": []
+        },
+        {
+          "id": "9",
+          "spots": []
+        }
+      ],
+      "ownerId": 1,
+      "updatedAt": "2026-06-03T14:55:46.556Z",
+      "id": "154e5e5d-5919-4f22-b651-4a33e5d11062",
+      "userId": 1,
+      "name": "東京2026",
+      "dateStart": "2026-08-09",
+      "dateEnd": "2026-08-17",
+      "people": 2,
+      "destination": "東京",
+      "dailyStartTime": "09:30",
+      "dailyEndTime": "20:30",
+      "travelStyle": "balanced"
+    },
+    {
+      "candidateSpots": [
+        {
+          "id": "c5b79ebe-2b2b-48ec-948b-58143f29f504",
+          "durationMinutes": 90,
+          "priority": "medium",
+          "spotName": "澀谷sky",
+          "category": "sightseeing",
+          "address": "",
+          "openTime": "09:00",
+          "closeTime": "21:00",
+          "notes": ""
+        },
+        {
+          "id": "8db5b5c0-89ce-40ff-ad69-0d11383d628a",
+          "durationMinutes": 90,
+          "priority": "medium",
+          "spotName": "API連續新增A",
+          "category": "sightseeing",
+          "address": "測試區",
+          "openTime": "09:00",
+          "closeTime": "21:00",
+          "notes": ""
+        },
+        {
+          "id": "129cb925-4db7-4ef4-9f08-10992281006b",
+          "durationMinutes": 90,
+          "priority": "medium",
+          "spotName": "秋葉原",
+          "category": "sightseeing",
+          "address": "",
+          "openTime": "09:00",
+          "closeTime": "21:00",
+          "notes": ""
+        },
+        {
+          "id": "b4682a4f-7533-4ffa-af22-57020764940e",
+          "durationMinutes": 75,
+          "priority": "medium",
+          "spotName": "API壓測C",
+          "category": "sightseeing",
+          "address": "壓測區",
+          "openTime": "09:00",
+          "closeTime": "21:00",
+          "notes": "多筆新增測試"
+        },
+        {
+          "id": "58a0ace9-0a27-4493-b337-7490441d8160",
+          "durationMinutes": 75,
+          "priority": "medium",
+          "spotName": "API壓測D",
+          "category": "sightseeing",
+          "address": "壓測區",
+          "openTime": "09:00",
+          "closeTime": "21:00",
+          "notes": "多筆新增測試"
+        },
+        {
+          "id": "cb68d18e-a658-4493-b3d0-a4db5d992213",
+          "durationMinutes": 75,
+          "priority": "medium",
+          "spotName": "API壓測E",
+          "category": "sightseeing",
+          "address": "壓測區",
+          "openTime": "09:00",
+          "closeTime": "21:00",
+          "notes": "多筆新增測試"
+        },
+        {
+          "id": "e465d188-b23d-424f-8823-a120b3ec1b81",
+          "durationMinutes": 75,
+          "priority": "medium",
+          "spotName": "API壓測F",
+          "category": "sightseeing",
+          "address": "壓測區",
+          "openTime": "09:00",
+          "closeTime": "21:00",
+          "notes": "多筆新增測試"
+        },
+        {
+          "id": "eabb1080-8f0a-45f4-85b4-4831f88efe00",
+          "durationMinutes": 90,
+          "priority": "medium",
+          "spotName": "晴空塔",
+          "category": "sightseeing",
+          "address": "",
+          "openTime": "09:00",
+          "closeTime": "21:00",
+          "notes": ""
+        },
+        {
+          "id": "7057177d-e14e-4503-b11b-b4a9f8aeaba4",
+          "durationMinutes": 90,
+          "priority": "medium",
+          "spotName": "機場",
+          "category": "sightseeing",
+          "address": "",
+          "openTime": "09:00",
+          "closeTime": "21:00",
+          "notes": ""
+        }
+      ],
+      "collaborators": [
+        {
+          "id": 3,
+          "email": "cchloehsieh@gmail.com",
+          "name": "chloe",
+          "role": "editor"
+        },
+        {
+          "id": 1,
+          "email": "user1@example.com",
+          "name": "user1",
+          "role": "editor"
+        }
+      ],
+      "days": [
+        {
+          "id": "1",
+          "spots": [
+            {
+              "id": "0ae9e022-b2e7-4146-a84f-935f9a9eea2c",
+              "durationMinutes": 90,
+              "priority": "medium",
+              "spotName": "澀谷sky",
+              "category": "sightseeing",
+              "address": "",
+              "openTime": "09:00",
+              "closeTime": "21:00",
+              "notes": "",
+              "sourceCandidateId": "c5b79ebe-2b2b-48ec-948b-58143f29f504",
+              "time": "09:30",
+              "timeStart": "09:30",
+              "timeEnd": "11:00",
+              "transportMinutes": 0,
+              "transportNote": "今日第一站，請依住宿位置自行確認出發交通。",
+              "aiReason": "依停留時間與行程節奏排序。"
+            },
+            {
+              "id": "9b32e931-e9c6-4fd5-88d6-be303e8afaa6",
+              "durationMinutes": 90,
+              "priority": "medium",
+              "spotName": "API連續新增A",
+              "category": "sightseeing",
+              "address": "測試區",
+              "openTime": "09:00",
+              "closeTime": "21:00",
+              "notes": "",
+              "sourceCandidateId": "8db5b5c0-89ce-40ff-ad69-0d11383d628a",
+              "time": "11:25",
+              "timeStart": "11:25",
+              "timeEnd": "12:55",
+              "transportMinutes": 25,
+              "transportNote": "AI 估算約 25 分鐘，建議依地址區域選擇步行、大眾運輸或計程車。",
+              "aiReason": "依停留時間與行程節奏排序。"
+            },
+            {
+              "id": "d2d1f2af-9e5c-45f9-80aa-f42156483477",
+              "durationMinutes": 90,
+              "priority": "medium",
+              "spotName": "秋葉原",
+              "category": "sightseeing",
+              "address": "",
+              "openTime": "09:00",
+              "closeTime": "21:00",
+              "notes": "",
+              "sourceCandidateId": "129cb925-4db7-4ef4-9f08-10992281006b",
+              "time": "13:20",
+              "timeStart": "13:20",
+              "timeEnd": "14:50",
+              "transportMinutes": 25,
+              "transportNote": "AI 估算約 25 分鐘，建議依地址區域選擇步行、大眾運輸或計程車。",
+              "aiReason": "依停留時間與行程節奏排序。"
+            },
+            {
+              "id": "23bb4f69-22f5-4a78-8dc8-1352066a0c93",
+              "durationMinutes": 75,
+              "priority": "medium",
+              "spotName": "API壓測C",
+              "category": "sightseeing",
+              "address": "壓測區",
+              "openTime": "09:00",
+              "closeTime": "21:00",
+              "notes": "多筆新增測試",
+              "sourceCandidateId": "b4682a4f-7533-4ffa-af22-57020764940e",
+              "time": "15:15",
+              "timeStart": "15:15",
+              "timeEnd": "16:30",
+              "transportMinutes": 25,
+              "transportNote": "AI 估算約 25 分鐘，建議依地址區域選擇步行、大眾運輸或計程車。",
+              "aiReason": "依停留時間與行程節奏排序。"
+            },
+            {
+              "id": "7a8fa6dc-d872-4022-8b1f-00465c6dcfef",
+              "durationMinutes": 75,
+              "priority": "medium",
+              "spotName": "API壓測D",
+              "category": "sightseeing",
+              "address": "壓測區",
+              "openTime": "09:00",
+              "closeTime": "21:00",
+              "notes": "多筆新增測試",
+              "sourceCandidateId": "58a0ace9-0a27-4493-b337-7490441d8160",
+              "time": "16:55",
+              "timeStart": "16:55",
+              "timeEnd": "18:10",
+              "transportMinutes": 25,
+              "transportNote": "AI 估算約 25 分鐘，建議依地址區域選擇步行、大眾運輸或計程車。",
+              "aiReason": "依停留時間與行程節奏排序。"
+            },
+            {
+              "id": "6cc935a2-698b-45c7-8274-7ad3ad7eee7c",
+              "durationMinutes": 75,
+              "priority": "medium",
+              "spotName": "API壓測E",
+              "category": "sightseeing",
+              "address": "壓測區",
+              "openTime": "09:00",
+              "closeTime": "21:00",
+              "notes": "多筆新增測試",
+              "sourceCandidateId": "cb68d18e-a658-4493-b3d0-a4db5d992213",
+              "time": "18:35",
+              "timeStart": "18:35",
+              "timeEnd": "19:50",
+              "transportMinutes": 25,
+              "transportNote": "AI 估算約 25 分鐘，建議依地址區域選擇步行、大眾運輸或計程車。",
+              "aiReason": "依停留時間與行程節奏排序。"
             }
           ]
         },
@@ -39,135 +326,124 @@
           "id": "2",
           "spots": [
             {
-              "id": "2",
-              "spotName": "行程 222",
-              "time": "13:00",
-              "description": "行程 2 的描述",
-              "isFavorite": false
+              "id": "a18257e5-7523-4d51-9b30-bf0674a503bf",
+              "durationMinutes": 75,
+              "priority": "medium",
+              "spotName": "API壓測F",
+              "category": "sightseeing",
+              "address": "壓測區",
+              "openTime": "09:00",
+              "closeTime": "21:00",
+              "notes": "多筆新增測試",
+              "sourceCandidateId": "e465d188-b23d-424f-8823-a120b3ec1b81",
+              "time": "09:30",
+              "timeStart": "09:30",
+              "timeEnd": "10:45",
+              "transportMinutes": 0,
+              "transportNote": "今日第一站，請依住宿位置自行確認出發交通。",
+              "aiReason": "依停留時間與行程節奏排序。"
             },
             {
-              "id": "3",
-              "spotName": "行程 3",
-              "time": "14:00",
-              "description": "行程 3 的描",
-              "isFavorite": true
+              "id": "03ff1fd1-ef26-4438-be42-5bca5c9c0a58",
+              "durationMinutes": 90,
+              "priority": "medium",
+              "spotName": "晴空塔",
+              "category": "sightseeing",
+              "address": "",
+              "openTime": "09:00",
+              "closeTime": "21:00",
+              "notes": "",
+              "sourceCandidateId": "eabb1080-8f0a-45f4-85b4-4831f88efe00",
+              "time": "11:10",
+              "timeStart": "11:10",
+              "timeEnd": "12:40",
+              "transportMinutes": 25,
+              "transportNote": "AI 估算約 25 分鐘，建議依地址區域選擇步行、大眾運輸或計程車。",
+              "aiReason": "依停留時間與行程節奏排序。"
+            },
+            {
+              "id": "842cae50-a05e-4bc8-b194-d7a97163355a",
+              "durationMinutes": 90,
+              "priority": "medium",
+              "spotName": "機場",
+              "category": "sightseeing",
+              "address": "",
+              "openTime": "09:00",
+              "closeTime": "21:00",
+              "notes": "",
+              "sourceCandidateId": "7057177d-e14e-4503-b11b-b4a9f8aeaba4",
+              "time": "13:05",
+              "timeStart": "13:05",
+              "timeEnd": "14:35",
+              "transportMinutes": 25,
+              "transportNote": "AI 估算約 25 分鐘，建議依地址區域選擇步行、大眾運輸或計程車。",
+              "aiReason": "依停留時間與行程節奏排序。"
             }
           ]
         },
         {
           "id": "3",
-          "spots": [
-            {
-              "id": "317ef10f-318c-4ad1-956b-46227b3b0a69",
-              "isFavorite": false,
-              "description": "hi",
-              "spotName": "fff",
-              "time": "16:28"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "2",
-      "userId": 1,
-      "name": "Trip 2",
-      "dateStart": "2024-06-15",
-      "dateEnd": "2024-06-25",
-      "people": 3,
-      "banner": "https://images.pexels.com/photos/10255590/pexels-photo-10255590.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load",
-      "days": [
-        {
-          "id": "1",
-          "spots": [
-            {
-              "id": "1",
-              "spotName": "行程 1",
-              "time": "12:00",
-              "description": "行程 1 的描述",
-              "banner": "https://images.pexels.com/photos/10255590/pexels-photo-10255590.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load",
-              "isFavorite": true
-            }
-          ]
+          "spots": []
         },
         {
-          "id": "2",
-          "spots": [
-            {
-              "id": "2",
-              "spotName": "行程 2",
-              "time": "13:00",
-              "description": "行程 2 的描述",
-              "banner": "https://images.pexels.com/photos/10255590/pexels-photo-10255590.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load",
-              "isFavorite": false
-            },
-            {
-              "id": "3",
-              "spotName": "行程 3",
-              "time": "14:00",
-              "description": "行程 3 的描述",
-              "banner": "https://images.pexels.com/photos/10255590/pexels-photo-10255590.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load",
-              "isFavorite": true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "3",
-      "userId": 1,
-      "name": "Trip 3",
-      "dateStart": "2024-05-01",
-      "dateEnd": "2024-05-05",
-      "people": 25,
-      "banner": "https://images.pexels.com/photos/10255590/pexels-photo-10255590.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load",
-      "days": [
-        {
-          "id": "1",
-          "spots": [
-            {
-              "id": "1",
-              "spotName": "行程 1",
-              "time": "12:00",
-              "description": "行程 1 的描述",
-              "isFavorite": true
-            }
-          ]
+          "id": "4",
+          "spots": []
         },
         {
-          "id": "2",
-          "spots": [
-            {
-              "id": "2",
-              "spotName": "行程 2",
-              "time": "13:00",
-              "description": "行程 2 的描述",
-              "isFavorite": false
-            },
-            {
-              "id": "3",
-              "spotName": "行程 3",
-              "time": "14:00",
-              "description": "行程 3 的描述",
-              "isFavorite": true
-            }
-          ]
+          "id": "5",
+          "spots": []
+        },
+        {
+          "id": "6",
+          "spots": []
+        },
+        {
+          "id": "7",
+          "spots": []
+        },
+        {
+          "id": "8",
+          "spots": []
+        },
+        {
+          "id": "9",
+          "spots": []
+        },
+        {
+          "id": "10",
+          "spots": []
+        },
+        {
+          "id": "11",
+          "spots": []
+        },
+        {
+          "id": "12",
+          "spots": []
+        },
+        {
+          "id": "13",
+          "spots": []
+        },
+        {
+          "id": "14",
+          "spots": []
         }
-      ]
+      ],
+      "ownerId": 3,
+      "updatedAt": "2026-06-04T03:54:35.688Z",
+      "id": "a38e2531-7c53-49bf-8929-3e019ebd0dfc",
+      "userId": 3,
+      "name": "tokyo",
+      "dateStart": "2026-06-04",
+      "dateEnd": "2026-06-17",
+      "people": 2,
+      "destination": "tokyo",
+      "dailyStartTime": "09:30",
+      "dailyEndTime": "20:30",
+      "travelStyle": "packed",
+      "inviteToken": "8d4d39be-9aa6-40eb-a5eb-7c6a7922779d"
     }
   ],
-  "spots": [
-    {
-      "id": 1,
-      "spotName": "spot1",
-      "description": "Description of spot1",
-      "isFavorite": true
-    },
-    {
-      "id": 2,
-      "spotName": "spot2",
-      "description": "Description of spot2",
-      "isFavorite": true
-    }
-  ]
+  "spots": []
 }

@@ -1,41 +1,56 @@
-# Travel Assistant
+# Traveling Assistant
 
-Travel Assistant is a travel assistant application that allows users to register, log in, and manage their travel plans.
-
-## Table of Contents
-
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Installation](#installation)
+Vue 3 AI travel planning workspace for portfolio and interview demos. Users can create trips, add candidate places manually, run a mock AI planner, adjust itinerary timing, and invite collaborators.
 
 ## Features
 
-- User registration and login
-- Authentication using JSON Web Tokens (JWT)
-- Users can create, view, and manage their own travel plans
-- Each travel plan includes multiple days and spots
-- Responsive user interface design for various devices
+- Vue 3 + Composition API
+- Vite + TypeScript
+- Pinia state management
+- Vue Router route guards and lazy loaded pages
+- Axios service layer for RESTful APIs
+- Tailwind CSS Morandi-style responsive UI
+- Manual candidate spot pool
+- Mock AI itinerary planning with transportation notes
+- Manual itinerary editing, deletion, and ordering
+- Shared trip editing by collaborator email
+- Vitest utility tests and Playwright E2E smoke test
 
-## Tech Stack
+## Setup
 
-- Frontend: Vue.js
-- Backend: JSON Server
-- Authentication: JSON Web Tokens (JWT)
-- Styling: Bootstrap 5
+```bash
+npm install
+```
 
-## Installation
+Create `.env` if needed:
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/travel-assistant.git
-   cd travel-assistant
-2. Start the frontend:
-   npm run serve
-3. add JWT_SECRET='json-server-auth-123456' to your .env
-4. Start the backend:
-   npm run start
-5. Open http://localhost:8080 in your browser
-6. Now you can try by this account or, sign up one to login:
-   - user1@example.com
-   - 123123123
+```bash
+JWT_SECRET=json-server-auth-123456
+```
 
+Start the backend:
+
+```bash
+npm run start
+```
+
+Start the frontend:
+
+```bash
+npm run dev
+```
+
+Open `http://localhost:8080`.
+
+Demo account:
+
+- `user1@example.com`
+- `123123123`
+
+## Checks
+
+```bash
+npm run build
+npm run test:unit
+npm run test:e2e
+```

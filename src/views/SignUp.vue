@@ -1,105 +1,55 @@
 <template>
-  <div class="container py-5">
-    <form class="w-100" @submit.prevent.stop="handleSubmit">
-      <div class="text-center mb-4">
-        <h1 class="h3 mb-3 font-weight-normal">
-          Sign Up
-        </h1>
-      </div>
-
-      <div class="form-label-group mb-2">
-        <label for="name">Name</label>
-        <input id="name" v-model="name" name="name" type="text" class="form-control" placeholder="name"
-          autocomplete="username" required autofocus>
-      </div>
-
-      <div class="form-label-group mb-2">
-        <label for="email">Email</label>
-        <input id="email" v-model="email" name="email" type="email" class="form-control" placeholder="email"
-          autocomplete="email" required>
-      </div>
-
-      <div class="form-label-group mb-3">
-        <label for="password">Password</label>
-        <input id="password" v-model="password" name="password" type="password" class="form-control"
-          placeholder="Password" autocomplete="new-password" required>
-      </div>
-
-      <div class="form-label-group mb-3">
-        <label for="password-check">Password Check</label>
-        <input id="password-check" v-model="passwordCheck" name="passwordCheck" type="password" class="form-control"
-          placeholder="Password" autocomplete="new-password" required>
-      </div>
-
-      <button class="btn btn-lg btn-secondary btn-block mb-3" type="submit" :disabled="isProcessing">
-        Submit
-      </button>
-
-      <div class="text-center mb-3">
-        <p>
-          <router-link to="/signin">
-            Sign In
-          </router-link>
-        </p>
-      </div>
-
-      <p class="mt-5 mb-3 text-muted text-center">
-        &copy; 2024
+  <section class="mx-auto max-w-md rounded-2xl bg-white p-6 shadow-soft">
+    <h1 class="text-2xl font-bold text-morandi-ink">建立帳號</h1>
+    <form class="mt-6 space-y-4" @submit.prevent="handleSubmit">
+      <label>
+        <span class="form-label">Name</span>
+        <input v-model="name" class="form-field" type="text" required />
+      </label>
+      <label>
+        <span class="form-label">Email</span>
+        <input v-model="email" class="form-field" type="email" required />
+      </label>
+      <label>
+        <span class="form-label">Password</span>
+        <input v-model="password" class="form-field" type="password" minlength="6" required />
+      </label>
+      <p v-if="errorMessage" class="rounded-lg bg-morandi-rose/15 px-3 py-2 text-sm text-morandi-ink">
+        {{ errorMessage }}
       </p>
+      <button class="primary-button w-full" type="submit" :disabled="isSubmitting">
+        {{ isSubmitting ? '建立中...' : '註冊並登入' }}
+      </button>
+      <RouterLink to="/signin" class="secondary-button w-full">已有帳號</RouterLink>
     </form>
-  </div>
+  </section>
 </template>
-<script>
-import authorizationAPI from '../apis/authorization'
-import { mapActions } from 'vuex'
 
-export default {
-  data () {
-    return {
-      name: '',
-      email: '',
-      password: '',
-      passwordCheck: '',
-      isProcessing: false
-    }
-  },
-  methods: {
-    ...mapActions(['login']),
-    async handleSubmit () {
-      this.isProcessing = true
-      // Check if any field is empty
-      if (!this.name || !this.email || !this.password || !this.passwordCheck) {
-        alert('Please fill in all fields')
-        this.isProcessing = false
-        return
-      }
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
-      // Stop form submission if passwords don't match
-      if (this.password !== this.passwordCheck) {
-        alert('Passwords do not match')
-        this.isProcessing = false
-        return
-      }
+const router = useRouter()
+const route = useRoute()
+const authStore = useAuthStore()
+const name = ref('')
+const email = ref('')
+const password = ref('')
+const errorMessage = ref('')
+const isSubmitting = ref(false)
 
-      const data = {
-        name: this.name,
-        email: this.email,
-        password: this.password
-      }
+const handleSubmit = async () => {
+  isSubmitting.value = true
+  errorMessage.value = ''
 
-      try {
-        await authorizationAPI.signUp(data)
-        
-        alert('Sign up successful! Please log in.')
-        this.$router.push('/signin')
-      } catch (error) {
-        this.isProcessing = false
-        console.error('Error Sign up:', error)
-        alert('Sign Up Failed.')
-      } finally {
-        this.isProcessing = false
-      }
-    }
+  try {
+    await authStore.signUp({ name: name.value, email: email.value, password: password.value })
+    router.push(typeof route.query.redirect === 'string' ? route.query.redirect : { name: 'trips' })
+  } catch {
+    errorMessage.value = '註冊失敗，請換一組 email 或稍後再試。'
+  } finally {
+    isSubmitting.value = false
   }
 }
 </script>

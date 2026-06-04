@@ -1,106 +1,38 @@
 <template>
-  <div class="trip-card">
-    <div class="card border-0">
-      <div class="row no-gutters">
-        <!-- picture -->
-        <div class="card-container col-md-3">
-          <img :key="trip.banner" :src="trip.banner" class="card-img" alt="Trip Image">
+  <article class="rounded-2xl border border-morandi-linen bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:border-morandi-sage">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <button class="min-w-0 flex-1 text-left" type="button" @click="$emit('open', trip.id)">
+        <p class="text-xs font-semibold uppercase tracking-wide text-morandi-sageDark">{{ trip.destination || '未設定目的地' }}</p>
+        <h2 class="mt-2 text-xl font-bold text-morandi-ink">{{ trip.name }}</h2>
+        <div class="mt-4 flex flex-wrap gap-2 text-sm text-morandi-sageDark">
+          <span class="rounded-full bg-morandi-mist px-3 py-1">{{ trip.dateStart }} - {{ trip.dateEnd }}</span>
+          <span class="rounded-full bg-morandi-mist px-3 py-1">{{ trip.people }} 人</span>
+          <span class="rounded-full bg-morandi-mist px-3 py-1">{{ plannedCount }} 個行程</span>
         </div>
-        <!-- contents -->
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">{{ trip.name }}</h5>
-            <p class="card-text"><i class="fa-solid fa-calendar-days"></i> : {{ trip.dateStart }} ~ {{ trip.dateEnd }}
-            </p>
-            <p class="card-text"><i class="fa-solid fa-person"></i> : {{ trip.people }}</p>
-          </div>
-        </div>
-        <div class="col-md-1">
-          <div class="top-right-icon">
-            <p class="setting-icon" @click.stop="handleIconClick" @touchend.stop="handleIconClick"><i
-                class="fa-solid fa-gear"></i></p>
-          </div>
-        </div>
+      </button>
+
+      <div class="flex shrink-0 gap-2">
+        <button class="secondary-button" type="button" @click="$emit('edit', trip)">編輯</button>
+        <button class="ghost-button text-morandi-rose" type="button" @click="$emit('delete', trip.id)">刪除</button>
       </div>
     </div>
-  </div>
+  </article>
 </template>
 
-<script>
-export default {
-  name: 'TripCard',
-  props: {
-    trip: Object
-  },
-  emits: ['edit'],
-  methods: {
-    handleIconClick () {
-      this.editTrip()
-    },
-    editTrip () {
-      this.$emit('edit', this.trip)
-    }
-  }
-}
+<script setup lang="ts">
+import { computed } from 'vue'
+import type { Trip } from '@/types/models'
+import { countPlannedSpots } from '@/utils/planner'
+
+const props = defineProps<{
+  trip: Trip
+}>()
+
+defineEmits<{
+  open: [id: string]
+  edit: [trip: Trip]
+  delete: [id: string]
+}>()
+
+const plannedCount = computed(() => countPlannedSpots(props.trip.days || []))
 </script>
-
-<style scoped>
-.trip-card {
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 16px;
-  cursor: pointer;
-}
-
-.card-container {
- height: 200px;
- overflow: hidden;
-}
-
-.card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.top-right-icon {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.setting-icon {
-  color: white;
-  background-color: grey;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  margin-bottom: 5px;
-  text-align: center;
-  line-height: 30px;
-  cursor: pointer;
-}
-
-@media (min-width:  576px) {
-  .card-img {
-    max-width: 300px;
-  }
-}
-
-@media (min-width: 992px) {
-  .card-body {
-    text-align: left;
-  }
-}
-
-@media (max-width: 576px) {
-  .setting-icon {
-    margin-right: 5px;
-    margin-top: 5px;
-  }
-}
-</style>
