@@ -4,14 +4,10 @@
       <div>
         <RouterLink to="/trips" class="text-sm font-semibold text-morandi-sageDark">← 回旅程列表</RouterLink>
         <h1 class="mt-3 text-3xl font-bold text-morandi-ink">{{ tripStore.currentTrip.name }}</h1>
-        <p class="mt-2 text-sm text-morandi-sageDark">
-          {{ tripStore.currentTrip.destination }} · {{ tripStore.currentTrip.dateStart }} - {{ tripStore.currentTrip.dateEnd }}
-        </p>
+        <p class="mt-2 text-sm text-morandi-sageDark">{{ tripStore.currentTrip.destination }} · {{ tripStore.currentTrip.dateStart }} - {{ tripStore.currentTrip.dateEnd }}</p>
       </div>
       <div class="flex flex-wrap gap-2">
-        <span class="rounded-full bg-morandi-mist px-3 py-1 text-sm text-morandi-sageDark">
-          {{ tripStore.currentTrip.people }} 人
-        </span>
+        <span class="rounded-full bg-morandi-mist px-3 py-1 text-sm text-morandi-sageDark"> {{ tripStore.currentTrip.people }} 人 </span>
         <span class="rounded-full bg-morandi-blue/20 px-3 py-1 text-sm text-morandi-ink">
           {{ tripStore.currentTrip.travelStyle }}
         </span>
@@ -41,35 +37,15 @@
           </div>
         </section>
 
-        <CollaboratorPanel
-          :collaborators="tripStore.currentTrip.collaborators"
-          :invite-url="inviteUrl"
-          :on-invite="handleInvite"
-          :on-create-invite-link="handleCreateInviteLink"
-        />
+        <CollaboratorPanel :collaborators="tripStore.currentTrip.collaborators" :invite-url="inviteUrl" :on-invite="handleInvite" :on-create-invite-link="handleCreateInviteLink" />
       </aside>
 
-      <ItineraryTimeline
-        v-if="tripStore.selectedDay"
-        :day="tripStore.selectedDay"
-        @edit="openSpotEditor"
-        @delete="handleDeleteSpot"
-        @move="handleMoveSpot"
-        @add-spot="openSpotEditor(null)"
-      />
+      <ItineraryTimeline v-if="tripStore.selectedDay" :day="tripStore.selectedDay" @edit="openSpotEditor" @delete="handleDeleteSpot" @move="handleMoveSpot" @add-spot="openSpotEditor(null)" />
 
       <aside class="space-y-4">
-        <AiPlannerPanel
-          :trip="tripStore.currentTrip"
-          :is-planning="plannerStore.isPlanning"
-          @plan="handleAiPlan"
-        />
+        <AiPlannerPanel :trip="tripStore.currentTrip" :is-planning="plannerStore.isPlanning" @plan="handleAiPlan" />
 
-        <CandidateSpotForm
-          :editing-spot="editingCandidate"
-          :on-save="handleSaveCandidate"
-          @cancel="editingCandidate = null"
-        />
+        <CandidateSpotForm :editing-spot="editingCandidate" :on-save="handleSaveCandidate" @cancel="editingCandidate = null" />
 
         <section class="rounded-2xl border border-morandi-linen bg-white p-4">
           <div class="flex items-center justify-between">
@@ -77,11 +53,7 @@
             <span class="text-sm text-morandi-sageDark">{{ tripStore.currentTrip.candidateSpots.length }} 個</span>
           </div>
           <div class="mt-4 space-y-3">
-            <article
-              v-for="spot in tripStore.currentTrip.candidateSpots"
-              :key="spot.id"
-              class="rounded-xl bg-morandi-mist p-3 text-sm"
-            >
+            <article v-for="spot in tripStore.currentTrip.candidateSpots" :key="spot.id" class="rounded-xl bg-morandi-mist p-3 text-sm">
               <div class="flex items-start justify-between gap-3">
                 <div>
                   <h4 class="font-bold text-morandi-ink">{{ spot.spotName }}</h4>
@@ -94,20 +66,13 @@
                 </div>
               </div>
             </article>
-            <p v-if="!tripStore.currentTrip.candidateSpots.length" class="text-sm text-morandi-sageDark">
-              先加入幾個想去的景點，再啟用 AI 排程。
-            </p>
+            <p v-if="!tripStore.currentTrip.candidateSpots.length" class="text-sm text-morandi-sageDark">先加入幾個想去的景點，再啟用 AI 排程。</p>
           </div>
         </section>
       </aside>
     </div>
 
-    <SpotEditorModal
-      v-if="isSpotEditorOpen"
-      :spot="editingSpot"
-      @close="closeSpotEditor"
-      @save="handleSaveSpot"
-    />
+    <SpotEditorModal v-if="isSpotEditorOpen" :spot="editingSpot" @close="closeSpotEditor" @save="handleSaveSpot" />
   </section>
 
   <section v-else class="rounded-2xl bg-white p-8 text-center shadow-soft">
@@ -116,31 +81,31 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
-import AiPlannerPanel from '@/components/AiPlannerPanel.vue'
-import CandidateSpotForm from '@/components/CandidateSpotForm.vue'
-import CollaboratorPanel from '@/components/CollaboratorPanel.vue'
-import ItineraryTimeline from '@/components/ItineraryTimeline.vue'
-import SpotEditorModal from '@/components/SpotEditorModal.vue'
-import { usePlannerStore } from '@/stores/planner'
-import { useTripStore } from '@/stores/trip'
-import type { AiPlanRequest, CandidateSpot, Spot, SpotPriority } from '@/types/models'
-import { normalizeSpotTime, recalculateSequentialSpots } from '@/utils/planner'
+import { computed, onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import AiPlannerPanel from '@/components/AiPlannerPanel.vue';
+import CandidateSpotForm from '@/components/CandidateSpotForm.vue';
+import CollaboratorPanel from '@/components/CollaboratorPanel.vue';
+import ItineraryTimeline from '@/components/ItineraryTimeline.vue';
+import SpotEditorModal from '@/components/SpotEditorModal.vue';
+import { usePlannerStore } from '@/stores/planner';
+import { useTripStore } from '@/stores/trip';
+import type { AiPlanRequest, CandidateSpot, Spot, SpotPriority } from '@/types/models';
+import { normalizeSpotTime, recalculateSequentialSpots } from '@/utils/planner';
 
-const route = useRoute()
-const tripStore = useTripStore()
-const plannerStore = usePlannerStore()
-const editingCandidate = ref<CandidateSpot | null>(null)
-const editingSpot = ref<Spot | null>(null)
-const isSpotEditorOpen = ref(false)
-const inviteUrl = ref('')
+const route = useRoute();
+const tripStore = useTripStore();
+const plannerStore = usePlannerStore();
+const editingCandidate = ref<CandidateSpot | null>(null);
+const editingSpot = ref<Spot | null>(null);
+const isSpotEditorOpen = ref(false);
+const inviteUrl = ref('');
 
-const tripId = computed(() => String(route.params.id))
+const tripId = computed(() => String(route.params.id));
 
 onMounted(() => {
-  tripStore.fetchTrip(tripId.value)
-})
+  tripStore.fetchTrip(tripId.value);
+});
 
 const priorityLabel = (priority: SpotPriority) => {
   const labels: Record<SpotPriority, string> = {
@@ -148,86 +113,88 @@ const priorityLabel = (priority: SpotPriority) => {
     high: '很想去',
     medium: '可安排',
     low: '有空再去'
-  }
-  return labels[priority]
-}
+  };
+  return labels[priority];
+};
 
 const handleSaveCandidate = async (payload: Omit<CandidateSpot, 'id'> | CandidateSpot) => {
   if ('id' in payload) {
-    await tripStore.updateCandidate(payload)
+    await tripStore.updateCandidate(payload);
   } else {
-    await tripStore.addCandidate(payload)
+    await tripStore.addCandidate(payload);
   }
-  editingCandidate.value = null
-}
+  editingCandidate.value = null;
+};
 
 const handleAiPlan = async (payload: AiPlanRequest) => {
-  plannerStore.setPlanning(true)
+  plannerStore.setPlanning(true);
   try {
-    const plan = await tripStore.runAiPlan(payload)
-    plannerStore.setLatestPlan(plan)
+    const plan = await tripStore.runAiPlan(payload);
+    plannerStore.setLatestPlan(plan);
   } finally {
-    plannerStore.setPlanning(false)
+    plannerStore.setPlanning(false);
   }
-}
+};
 
 const openSpotEditor = (spot: Spot | null) => {
-  editingSpot.value = spot
-  isSpotEditorOpen.value = true
-}
+  editingSpot.value = spot;
+  isSpotEditorOpen.value = true;
+};
 
 const closeSpotEditor = () => {
-  editingSpot.value = null
-  isSpotEditorOpen.value = false
-}
+  editingSpot.value = null;
+  isSpotEditorOpen.value = false;
+};
 
 const handleSaveSpot = async (spot: Spot) => {
-  if (!tripStore.currentTrip) return
-  const dayId = tripStore.selectedDayId
-  const existingDay = tripStore.currentTrip.days.find(day => day.id === dayId)
-  const days = tripStore.currentTrip.days.map(day => {
-    if (day.id !== dayId) return day
-    const exists = day.spots.some(item => item.id === spot.id)
+  if (!tripStore.currentTrip) return;
+  const dayId = tripStore.selectedDayId;
+  const existingDay = tripStore.currentTrip.days.find((day) => day.id === dayId);
+  const days = tripStore.currentTrip.days.map((day) => {
+    if (day.id !== dayId) return day;
+    const exists = day.spots.some((item) => item.id === spot.id);
     return {
       ...day,
       spots: recalculateSequentialSpots(
-        exists
-          ? day.spots.map(item => (item.id === spot.id ? normalizeSpotTime(spot) : item))
-          : [...day.spots, normalizeSpotTime(spot)],
+        exists ? day.spots.map((item) => (item.id === spot.id ? normalizeSpotTime(spot) : item)) : [...day.spots, normalizeSpotTime(spot)],
         tripStore.currentTrip?.dailyStartTime
       )
-    }
-  })
+    };
+  });
 
   if (!existingDay) {
-    days.push({ id: dayId, spots: recalculateSequentialSpots([normalizeSpotTime(spot)], tripStore.currentTrip?.dailyStartTime) })
+    days.push({ id: dayId, spots: recalculateSequentialSpots([normalizeSpotTime(spot)], tripStore.currentTrip?.dailyStartTime) });
   }
 
-  await tripStore.updateTrip({ days })
-  closeSpotEditor()
-}
+  await tripStore.updateTrip({ days });
+  closeSpotEditor();
+};
 
 const handleDeleteSpot = async (spotId: string) => {
-  await tripStore.deleteSpot(tripStore.selectedDayId, spotId)
-}
+  await tripStore.deleteSpot(tripStore.selectedDayId, spotId);
+};
 
 const handleMoveSpot = async (spotId: string, direction: -1 | 1) => {
-  await tripStore.moveSpot(tripStore.selectedDayId, spotId, direction)
-}
+  await tripStore.moveSpot(tripStore.selectedDayId, spotId, direction);
+};
 
 const handleInvite = async (email: string) => {
-  await tripStore.addCollaborator(email)
-}
+  await tripStore.addCollaborator(email);
+};
 
 const handleCreateInviteLink = async () => {
-  const invite = await tripStore.createInviteLink()
-  const token = invite?.inviteToken || tripStore.currentTrip?.inviteToken
+  const invite = await tripStore.createInviteLink();
+  const token = invite?.inviteToken || tripStore.currentTrip?.inviteToken;
+  const configuredUrl = import.meta.env.VITE_PUBLIC_APP_URL?.trim();
+  const fallbackUrl = `${window.location.origin}${window.location.pathname}`;
+  const baseUrl = (configuredUrl || fallbackUrl).replace(/\/$/, '');
 
   if (!token) {
-    throw new Error('Invite token missing')
+    throw new Error('Invite token missing');
   }
 
-  inviteUrl.value = `${window.location.origin}${window.location.pathname}#/join/${token}`
-  return inviteUrl.value
-}
+  inviteUrl.value = `${baseUrl}/#/join/${token}`;
+  // inviteUrl.value = `${window.location.origin}${window.location.pathname}#/join/${token}`
+  return inviteUrl.value;
+};
 </script>

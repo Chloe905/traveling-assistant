@@ -33,7 +33,8 @@ export const useAuthStore = defineStore('auth', () => {
     persistSession(data.accessToken, data.user)
   }
 
-  const logout = () => {
+  const logout = async () => {
+    await authApi.signOut()
     token.value = null
     user.value = null
     guestId.value = null

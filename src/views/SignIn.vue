@@ -10,7 +10,7 @@
 
     <form class="rounded-2xl bg-white p-6 shadow-soft" @submit.prevent="handleSubmit">
       <h2 class="text-2xl font-bold text-morandi-ink">登入</h2>
-      <p class="mt-2 text-sm text-morandi-sageDark">測試帳號：user1@example.com / 123123123</p>
+      <p class="mt-2 text-sm text-morandi-sageDark">請使用 Supabase Auth 已註冊的 email 與密碼。</p>
 
       <div class="mt-6 space-y-4">
         <label>
@@ -43,10 +43,28 @@ import { useAuthStore } from '@/stores/auth'
 const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
-const email = ref('user1@example.com')
-const password = ref('123123123')
+const email = ref('')
+const password = ref('')
 const isSubmitting = ref(false)
 const errorMessage = ref('')
+
+const getAuthErrorMessage = (error: unknown) => {
+  const message = error instanceof Error ? error.message : ''
+
+  if (/email not confirmed/i.test(message)) {
+    return '此 email 尚未驗證。面試 demo 可先到 Supabase Auth 關閉 Confirm email，或先完成驗證信。'
+  }
+
+  if (/invalid login credentials/i.test(message)) {
+    return '帳號或密碼不正確，請確認你輸入的是 Supabase Auth 裡的註冊帳號。'
+  }
+
+  if (/email address.*invalid/i.test(message)) {
+    return 'Supabase 判定此 email 格式不可用，請換一個有效 email。'
+  }
+
+  return message ? `登入失敗：${message}` : '登入失敗，請確認帳號密碼或 Supabase Auth 設定。'
+}
 
 const handleSubmit = async () => {
   isSubmitting.value = true
@@ -55,8 +73,8 @@ const handleSubmit = async () => {
   try {
     await authStore.signIn(email.value, password.value)
     router.push(typeof route.query.redirect === 'string' ? route.query.redirect : { name: 'trips' })
-  } catch {
-    errorMessage.value = '登入失敗，請確認帳號密碼或後端服務。'
+  } catch (error) {
+    errorMessage.value = getAuthErrorMessage(error)
   } finally {
     isSubmitting.value = false
   }
