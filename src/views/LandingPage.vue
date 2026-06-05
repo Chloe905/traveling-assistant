@@ -114,12 +114,7 @@
       </div>
     </div>
 
-    <div class="landing-page__metrics">
-      <div v-for="metric in metrics" :key="metric.label" class="landing-page__metric-item">
-        <p class="text-4xl font-semibold text-morandi-ink sm:text-5xl">{{ metric.value }}</p>
-        <p class="mt-2 text-sm text-morandi-sageDark">{{ metric.label }}</p>
-      </div>
-    </div>
+    <div class="landing-page__copyright">copyright © 2026 Chloe</div>
   </section>
 </template>
 
@@ -227,11 +222,5 @@ const journeys = computed(() => [
     meta: t('landing.journeys.autumnMeta'),
     title: t('landing.journeys.autumnTitle')
   }
-]);
-
-const metrics = computed(() => [
-  { value: t('landing.metrics.modesValue'), label: t('landing.metrics.modesLabel') },
-  { value: t('landing.metrics.editableValue'), label: t('landing.metrics.editableLabel') },
-  { value: t('landing.metrics.stackValue'), label: t('landing.metrics.stackLabel') }
 ]);
 </script>

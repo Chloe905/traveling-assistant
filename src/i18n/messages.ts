@@ -9,7 +9,8 @@ export const messages = {
     landing: {
       eyebrow: 'Travel Assistant',
       title: 'Turn the places you dream of into a journey, one step at a time.',
-      description: 'Collect the places everyone wants to visit, let AI shape them into a thoughtful itinerary, then discuss and refine the plan with your travel companions so planning feels as enjoyable as the trip itself.',
+      description:
+        'Collect the places everyone wants to visit, let AI shape them into a thoughtful itinerary, then discuss and refine the plan with your travel companions so planning feels as enjoyable as the trip itself.',
       startPlanning: 'Start planning',
       signIn: 'Sign in',
       scrollCue: 'Explore journeys',
@@ -42,12 +43,12 @@ export const messages = {
       draftLabel: 'Tokyo stroll',
       maplessLabel: 'Mapless MVP',
       features: {
-        candidateTitle: 'Candidate spot pool',
-        candidateDescription: 'Add places manually with priority, stay time, open hours, and notes before planning starts.',
-        aiTitle: 'AI itinerary draft',
-        aiDescription: 'Generate a structured day plan with time blocks, transport estimates, and editable reasons.',
-        collaborationTitle: 'Shared editing',
-        collaborationDescription: 'Invite friends by email, link, or QR code so decisions can move from chat into the itinerary.'
+        candidateTitle: 'Collect travel inspiration',
+        candidateDescription: 'Save the places you want to visit on the map first, and let them wait to become part of your next journey.',
+        aiTitle: 'Plan each day',
+        aiDescription: 'Automatically organize spots, timing, and routes so the journey takes shape step by step.',
+        collaborationTitle: 'Edit together with travel companions',
+        collaborationDescription: 'Share itineraries and ideas, then complete a travel plan that belongs to all of you.'
       },
       sampleStops: {
         meijiName: 'Meiji Shrine',
@@ -154,12 +155,12 @@ export const messages = {
       draftLabel: '東京散策',
       maplessLabel: 'Mapless MVP',
       features: {
-        candidateTitle: '候選景點池',
-        candidateDescription: '先手動加入景點，整理優先級、停留時間、營業時間與備註，再開始排程。',
-        aiTitle: 'AI 行程草稿',
-        aiDescription: '產生包含時間區塊、交通估算與可編輯原因的每日行程。',
-        collaborationTitle: '共同編輯',
-        collaborationDescription: '用 email、邀請連結或 QR code 邀請朋友，把聊天中的決定收進同一份行程。'
+        candidateTitle: '收藏旅行靈感',
+        candidateDescription: '。把想去的地方先留在地圖上，等待它們成為下一段旅程。',
+        aiTitle: '規劃每日行程',
+        aiDescription: '自動整理景點、時間與路線，讓旅程一步步成形。',
+        collaborationTitle: '與旅伴共同編輯',
+        collaborationDescription: '分享行程與想法，一起完成屬於你們的旅行計畫。'
       },
       sampleStops: {
         meijiName: '明治神宮',
@@ -266,12 +267,12 @@ export const messages = {
       draftLabel: '東京散策',
       maplessLabel: 'Mapless MVP',
       features: {
-        candidateTitle: '候補スポットリスト',
-        candidateDescription: '優先度、滞在時間、営業時間、メモを添えて、行きたい場所を手動で追加できます。',
-        aiTitle: 'AI 旅程ドラフト',
-        aiDescription: '時間帯、移動時間の目安、編集できる理由つきの日別プランを生成します。',
-        collaborationTitle: '共同編集',
-        collaborationDescription: 'メール、招待リンク、QR code で友人を招待し、会話で決めた内容を旅程に反映できます。'
+        candidateTitle: '旅のインスピレーションを集める',
+        candidateDescription: '行きたい場所をまず地図に残して、次の旅の一部になる日を待たせておけます。',
+        aiTitle: '日ごとの行程を計画する',
+        aiDescription: 'スポット、時間、ルートを自動で整理し、旅を一歩ずつ形にしていきます。',
+        collaborationTitle: '旅の仲間と一緒に編集する',
+        collaborationDescription: '行程やアイデアを共有し、あなたたちらしい旅行計画を一緒に完成させます。'
       },
       sampleStops: {
         meijiName: '明治神宮',
