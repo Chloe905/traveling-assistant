@@ -5,7 +5,7 @@
         <h3 class="text-lg font-bold text-morandi-ink">AI 排程</h3>
         <p class="mt-1 text-sm text-morandi-sageDark">Mock AI 會依優先級、停留時間與每日節奏安排。</p>
       </div>
-      <span class="rounded-full bg-morandi-blue/20 px-3 py-1 text-xs font-semibold text-morandi-ink">Mapless</span>
+      <!-- <span class="rounded-full bg-morandi-blue/20 px-3 py-1 text-xs font-semibold text-morandi-ink">Mapless</span> -->
     </div>
 
     <div class="mt-4 grid gap-3">
@@ -37,42 +37,40 @@
       {{ isPlanning ? 'AI 安排中...' : '啟用 AI 排行程' }}
     </button>
 
-    <p class="mt-3 text-xs leading-5 text-morandi-sageDark">
-      交通時間目前為 AI 估算文字，可在時間軸中手動修正。
-    </p>
+    <p class="mt-3 text-xs leading-5 text-morandi-sageDark">交通時間目前為 AI 估算文字，可在時間軸中手動修正。</p>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue'
-import type { AiPlanRequest, Trip } from '@/types/models'
+import { computed, reactive, watch } from 'vue';
+import type { AiPlanRequest, Trip } from '@/types/models';
 
 const props = defineProps<{
-  trip: Trip
-  isPlanning: boolean
-}>()
+  trip: Trip;
+  isPlanning: boolean;
+}>();
 
 defineEmits<{
-  plan: [payload: AiPlanRequest]
-}>()
+  plan: [payload: AiPlanRequest];
+}>();
 
 const localRequest = reactive<AiPlanRequest>({
   destination: '',
   dailyStartTime: '09:30',
   dailyEndTime: '20:30',
   travelStyle: 'balanced'
-})
+});
 
 watch(
   () => props.trip,
-  trip => {
-    localRequest.destination = trip.destination || ''
-    localRequest.dailyStartTime = trip.dailyStartTime || '09:30'
-    localRequest.dailyEndTime = trip.dailyEndTime || '20:30'
-    localRequest.travelStyle = trip.travelStyle || 'balanced'
+  (trip) => {
+    localRequest.destination = trip.destination || '';
+    localRequest.dailyStartTime = trip.dailyStartTime || '09:30';
+    localRequest.dailyEndTime = trip.dailyEndTime || '20:30';
+    localRequest.travelStyle = trip.travelStyle || 'balanced';
   },
   { immediate: true }
-)
+);
 
-const canPlan = computed(() => props.trip.candidateSpots.length > 0)
+const canPlan = computed(() => props.trip.candidateSpots.length > 0);
 </script>

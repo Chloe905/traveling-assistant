@@ -29,6 +29,12 @@ const router = createRouter({
       meta: { public: true }
     },
     {
+      path: '/recommended/:season',
+      name: 'recommended-journey',
+      component: () => import('@/views/RecommendedJourney.vue'),
+      meta: { public: true }
+    },
+    {
       path: '/trips',
       name: 'trips',
       component: () => import('@/views/HomePage.vue')
