@@ -2,18 +2,18 @@
   <section class="rounded-2xl border border-morandi-linen bg-white p-4">
     <div class="flex items-start justify-between gap-3">
       <div>
-        <h3 class="text-lg font-bold text-morandi-ink">共同編輯</h3>
-        <p class="mt-1 text-sm text-morandi-sageDark">可用 email 邀請，也可分享連結或 QR code。</p>
+        <h3 class="text-lg font-bold text-morandi-ink">{{ t('tripDetail.collaborators.title') }}</h3>
+        <p class="mt-1 text-sm text-morandi-sageDark">{{ t('tripDetail.collaborators.description') }}</p>
       </div>
       <button class="secondary-button shrink-0" type="button" :disabled="isGeneratingLink" @click="handleCreateInviteLink">
-        {{ isGeneratingLink ? '產生中' : '邀請連結' }}
+        {{ isGeneratingLink ? t('tripDetail.collaborators.generating') : t('tripDetail.collaborators.inviteLink') }}
       </button>
     </div>
 
     <form class="mt-4 flex gap-2" @submit.prevent="handleEmailInvite">
       <input v-model="email" class="form-field" type="email" placeholder="friend@example.com" required />
       <button class="primary-button shrink-0" type="submit" :disabled="isSubmitting">
-        {{ isSubmitting ? '送出中' : '邀請' }}
+        {{ isSubmitting ? t('tripDetail.collaborators.sending') : t('tripDetail.collaborators.invite') }}
       </button>
     </form>
 
@@ -21,12 +21,12 @@
       <p class="text-xs font-semibold uppercase tracking-wide text-morandi-sageDark">Invite URL</p>
       <div class="mt-2 flex gap-2">
         <input class="form-field" type="text" :value="inviteUrl" readonly />
-        <button class="secondary-button shrink-0" type="button" @click="copyInviteUrl">複製</button>
+        <button class="secondary-button shrink-0" type="button" @click="copyInviteUrl">{{ t('tripDetail.collaborators.copy') }}</button>
       </div>
       <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
         <canvas ref="qrCanvas" class="h-32 w-32 rounded-lg bg-white p-2"></canvas>
         <p class="text-sm leading-6 text-morandi-sageDark">
-          朋友掃 QR 或打開連結後，可以登入/註冊再加入，也可以用訪客名稱先加入旅程。
+          {{ t('tripDetail.collaborators.qrHelp') }}
         </p>
       </div>
     </div>
@@ -40,13 +40,14 @@
         <span>{{ member.name || member.email }}</span>
         <span class="text-morandi-sageDark">{{ member.isGuest ? 'guest' : member.role }}</span>
       </div>
-      <p v-if="!collaborators.length" class="text-sm text-morandi-sageDark">尚未邀請共編者。</p>
+      <p v-if="!collaborators.length" class="text-sm text-morandi-sageDark">{{ t('tripDetail.collaborators.empty') }}</p>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { nextTick, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import QRCode from 'qrcode'
 import type { Collaborator } from '@/types/models'
 
@@ -63,6 +64,7 @@ const hasError = ref(false)
 const isSubmitting = ref(false)
 const isGeneratingLink = ref(false)
 const qrCanvas = ref<HTMLCanvasElement | null>(null)
+const { t } = useI18n()
 
 const drawQrCode = async () => {
   if (!props.inviteUrl || !qrCanvas.value) return
@@ -92,11 +94,11 @@ const handleEmailInvite = async () => {
 
   try {
     await props.onInvite(email.value)
-    message.value = '已加入共同編輯清單。'
+    message.value = t('tripDetail.collaborators.inviteSuccess')
     email.value = ''
   } catch {
     hasError.value = true
-    message.value = '找不到這個 email，也可以改用邀請連結或 QR code。'
+    message.value = t('tripDetail.collaborators.inviteFailed')
   } finally {
     isSubmitting.value = false
   }
@@ -111,10 +113,10 @@ const handleCreateInviteLink = async () => {
     await props.onCreateInviteLink()
     await nextTick()
     await drawQrCode()
-    message.value = '邀請連結已建立，可以複製或讓朋友掃 QR code。'
+    message.value = t('tripDetail.collaborators.linkSuccess')
   } catch {
     hasError.value = true
-    message.value = '目前無法建立邀請連結，請稍後再試。'
+    message.value = t('tripDetail.collaborators.linkFailed')
   } finally {
     isGeneratingLink.value = false
   }
@@ -123,7 +125,7 @@ const handleCreateInviteLink = async () => {
 const copyInviteUrl = async () => {
   if (!props.inviteUrl) return
   await navigator.clipboard.writeText(props.inviteUrl)
-  message.value = '邀請連結已複製。'
+  message.value = t('tripDetail.collaborators.copied')
   hasError.value = false
 }
 </script>

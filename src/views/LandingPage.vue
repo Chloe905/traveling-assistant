@@ -33,8 +33,8 @@
             {{ t('landing.description') }}
           </p>
           <div class="flex flex-wrap gap-3 md:justify-end">
-            <RouterLink to="/signup" class="landing-page__primary-link">{{ t('landing.startPlanning') }}</RouterLink>
-            <RouterLink to="/signin" class="landing-page__secondary-link">{{ t('landing.signIn') }}</RouterLink>
+            <RouterLink :to="authStore.isAuthenticated ? '/trips' : '/signup'" class="landing-page__primary-link">{{ t('landing.startPlanning') }}</RouterLink>
+            <RouterLink v-if="!authStore.isAuthenticated" to="/signin" class="landing-page__secondary-link">{{ t('landing.signIn') }}</RouterLink>
           </div>
         </div>
       </div>
@@ -52,6 +52,22 @@
           <div class="landing-page__map-cover-mask" :style="mapCoverStyle" aria-hidden="true"></div>
           <div class="landing-page__map-cover-grid" aria-hidden="true"></div>
           <div class="landing-page__map-route-group" :style="mapRouteStyle" aria-hidden="true">
+            <svg class="landing-page__flight-route" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <path
+                class="landing-page__flight-route-line"
+                d="M 27 43.5 C 36 36 47 37 55 42.8 S 69 56 76.5 52"
+                pathLength="100"
+              />
+              <text class="landing-page__flight-plane" text-anchor="middle" dominant-baseline="central">
+                <animateMotion
+                  dur="5.6s"
+                  repeatCount="indefinite"
+                  rotate="auto"
+                  path="M 27 43.5 C 36 36 47 37 55 42.8 S 69 56 76.5 52"
+                />
+                ✈
+              </text>
+            </svg>
             <span class="landing-page__map-pin landing-page__map-pin--north"></span>
             <span class="landing-page__map-pin landing-page__map-pin--east"></span>
             <span class="landing-page__map-pin landing-page__map-pin--south"></span>
@@ -123,8 +139,10 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { recommendedJourneys } from '@/data/recommendedJourneys';
 import type { SupportedLocale } from '@/i18n/messages';
+import { useAuthStore } from '@/stores/auth';
 
 const { t, locale } = useI18n();
+const authStore = useAuthStore();
 const mapCoverSection = ref<HTMLElement | null>(null);
 const mapCoverProgress = ref(0);
 const activeLocale = computed(() => locale.value as SupportedLocale);

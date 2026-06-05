@@ -52,6 +52,14 @@
     @apply rounded-lg border border-morandi-linen bg-white px-2 py-2 text-xs font-semibold text-morandi-ink outline-none transition focus:border-morandi-sage focus:ring-2 focus:ring-morandi-sage/20;
   }
 
+  .itinerary-timeline__item {
+    @apply cursor-grab transition hover:border-morandi-sage;
+  }
+
+  .itinerary-timeline__item.is-active {
+    @apply cursor-grabbing border-morandi-sage bg-morandi-linen/80 opacity-70;
+  }
+
   .landing-page {
     @apply bg-morandi-mist text-morandi-ink;
   }
@@ -256,6 +264,29 @@
     will-change: opacity, transform;
   }
 
+  .landing-page__flight-route {
+    @apply absolute inset-0 h-full w-full overflow-visible;
+  }
+
+  .landing-page__flight-route-line {
+    fill: none;
+    stroke: rgba(63, 71, 66, 0.68);
+    stroke-width: 0.38;
+    stroke-linecap: round;
+    stroke-dasharray: 4 5;
+    animation: map-flight-route-draw 5.6s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(63, 71, 66, 0.18));
+  }
+
+  .landing-page__flight-plane {
+    fill: #3f4742;
+    font-size: 4.6px;
+    paint-order: stroke;
+    stroke: rgba(248, 244, 236, 0.92);
+    stroke-width: 0.55px;
+    animation: map-flight-plane-glow 5.6s ease-in-out infinite;
+  }
+
   .landing-page__map-pin {
     @apply absolute h-4 w-4 rounded-full border border-morandi-sageDark/80 bg-morandi-sage/60 backdrop-blur;
     box-shadow:
@@ -423,6 +454,12 @@
     @apply text-2xl font-semibold text-morandi-ink;
   }
 
+  @media (min-width: 640px) and (max-width: 1199px) {
+    .landing-page__scroll-cue {
+      @apply bottom-[164px] left-5 lg:left-5;
+    }
+  }
+
   @media (max-width: 639px) {
     .landing-page__hero {
       min-height: 100svh;
@@ -438,6 +475,14 @@
 
     .landing-page__journey-strip {
       @apply bottom-5 left-5 right-auto flex w-[calc(100%-40px)] snap-x snap-mandatory overflow-x-auto;
+    }
+
+    .landing-page__scroll-cue {
+      @apply bottom-[130px] left-5 flex;
+    }
+
+    .landing-page__scroll-cue span {
+      @apply w-10;
     }
 
     .landing-page__journey-card {
@@ -575,6 +620,35 @@
   50% {
     opacity: 1;
     transform: translate(10px, -50%) scale(1.18);
+  }
+}
+
+@keyframes map-flight-route-draw {
+  0% {
+    stroke-dashoffset: 100;
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 0.95;
+  }
+
+  72%,
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.95;
+  }
+}
+
+@keyframes map-flight-plane-glow {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  12%,
+  78% {
+    opacity: 1;
   }
 }
 

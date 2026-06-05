@@ -139,6 +139,22 @@ export const useTripStore = defineStore('trip', () => {
     await updateTrip({ days })
   }
 
+  const reorderSpot = async (dayId: string, sourceSpotId: string, targetSpotId: string) => {
+    if (!currentTrip.value || sourceSpotId === targetSpotId) return
+    const days = currentTrip.value.days.map(day => {
+      if (day.id !== dayId) return day
+      const spots = [...day.spots]
+      const sourceIndex = spots.findIndex(spot => spot.id === sourceSpotId)
+      if (sourceIndex < 0) return day
+      const [spot] = spots.splice(sourceIndex, 1)
+      const targetIndex = spots.findIndex(item => item.id === targetSpotId)
+      if (targetIndex < 0) return day
+      spots.splice(targetIndex, 0, spot)
+      return { ...day, spots: recalculateSequentialSpots(spots, currentTrip.value?.dailyStartTime) }
+    })
+    await updateTrip({ days })
+  }
+
   const addCollaborator = async (email: string) => {
     if (!currentTrip.value) return
     const collaborators = await tripApi.addCollaborator(currentTrip.value.id, email)
@@ -172,6 +188,7 @@ export const useTripStore = defineStore('trip', () => {
     updateSpot,
     deleteSpot,
     moveSpot,
+    reorderSpot,
     addCollaborator,
     createInviteLink
   }

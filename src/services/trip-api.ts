@@ -111,10 +111,15 @@ const throwIfError = (error: unknown) => {
 }
 
 const buildMockPlan = (trip: Trip, payload: AiPlanRequest): AiPlanResult => {
-  const days: TripDay[] = trip.days.map(day => ({ ...day, spots: [] }))
-  const sortedCandidates = [...trip.candidateSpots].sort(
-    (a, b) => priorityRank[a.priority] - priorityRank[b.priority]
+  const days: TripDay[] = trip.days.length
+    ? trip.days.map(day => ({ ...day, spots: [...day.spots] }))
+    : createDaysForTrip(trip)
+  const plannedCandidateIds = new Set(
+    days.flatMap(day => day.spots.map(spot => spot.sourceCandidateId || spot.id))
   )
+  const sortedCandidates = [...trip.candidateSpots]
+    .filter(candidate => !plannedCandidateIds.has(candidate.id))
+    .sort((a, b) => priorityRank[a.priority] - priorityRank[b.priority])
   let dayIndex = 0
 
   sortedCandidates.forEach(candidate => {
