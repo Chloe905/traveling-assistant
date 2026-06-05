@@ -143,11 +143,11 @@
   }
 
   .landing-page__journey-strip {
-    @apply absolute bottom-8 right-5 z-10 grid w-[min(760px,calc(100%-40px))] gap-px overflow-hidden border border-morandi-clay/25 bg-morandi-clay/20 backdrop-blur md:grid-cols-3 lg:right-14;
+    @apply absolute bottom-8 right-5 z-20 grid w-[min(960px,calc(100%-40px))] gap-px overflow-hidden border border-morandi-clay/25 bg-morandi-clay/20 backdrop-blur md:grid-cols-4 lg:right-14;
   }
 
   .landing-page__journey-card {
-    @apply flex min-h-[116px] flex-col justify-between bg-morandi-mist/85 p-4 text-morandi-ink;
+    @apply flex min-h-[116px] cursor-pointer flex-col justify-between bg-morandi-mist/85 p-4 text-morandi-ink transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-morandi-sageDark/25;
   }
 
   .landing-page__journey-card span {
@@ -329,6 +329,98 @@
 
   .landing-page__copyright {
     @apply bg-morandi-mist px-5 py-8 text-center text-xs font-medium text-morandi-sageDark sm:px-8 lg:px-14;
+  }
+
+  .recommended-journey {
+    @apply mx-auto min-h-screen w-full max-w-7xl px-4 pb-14 pt-24 sm:px-6 lg:px-8;
+  }
+
+  .recommended-journey__back {
+    @apply text-sm font-semibold text-morandi-sageDark transition hover:text-morandi-ink;
+  }
+
+  .recommended-journey__hero {
+    @apply mt-6 grid gap-8 border-b border-morandi-linen pb-10 lg:grid-cols-[1fr_340px] lg:items-end;
+  }
+
+  .recommended-journey__facts {
+    @apply grid gap-px overflow-hidden border border-morandi-linen bg-morandi-linen;
+  }
+
+  .recommended-journey__facts div {
+    @apply bg-white p-4;
+  }
+
+  .recommended-journey__facts dt {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-morandi-sageDark;
+  }
+
+  .recommended-journey__facts dd {
+    @apply mt-2 text-base font-semibold text-morandi-ink;
+  }
+
+  .recommended-journey__days {
+    @apply mt-10 grid gap-6;
+  }
+
+  .recommended-journey__day {
+    @apply grid gap-6 border border-morandi-linen bg-white p-5 sm:p-6 lg:grid-cols-[320px_1fr];
+  }
+
+  .recommended-journey__day-heading {
+    @apply flex gap-4 lg:block;
+  }
+
+  .recommended-journey__day-heading span {
+    @apply shrink-0 text-sm font-semibold uppercase tracking-[0.2em] text-morandi-sageDark;
+  }
+
+  .recommended-journey__day-heading h2 {
+    @apply text-2xl font-semibold text-morandi-ink;
+  }
+
+  .recommended-journey__day-heading p {
+    @apply mt-3 text-sm leading-6 text-morandi-sageDark;
+  }
+
+  .recommended-journey__timeline {
+    @apply grid gap-4;
+  }
+
+  .recommended-journey__stop {
+    @apply grid grid-cols-[72px_1fr] gap-4 border-b border-morandi-linen pb-4 last:border-b-0 last:pb-0;
+  }
+
+  .recommended-journey__stop time {
+    @apply text-sm font-semibold text-morandi-sageDark;
+  }
+
+  .recommended-journey__stop h3 {
+    @apply text-lg font-semibold text-morandi-ink;
+  }
+
+  .recommended-journey__stop p {
+    @apply mt-1 text-sm leading-6 text-morandi-sageDark;
+  }
+
+  .recommended-journey__cta {
+    @apply mt-10 grid gap-4 bg-morandi-linen p-5 sm:grid-cols-[1fr_auto] sm:items-center sm:p-6;
+  }
+
+  .recommended-journey__cta p {
+    @apply max-w-2xl text-sm leading-6 text-morandi-sageDark;
+  }
+
+  .recommended-journey__error {
+    @apply rounded-lg bg-morandi-rose/15 px-3 py-2 text-sm text-morandi-ink sm:col-span-2;
+  }
+
+  .recommended-journey__empty {
+    @apply bg-white p-8 text-center shadow-soft;
+  }
+
+  .recommended-journey__empty h1 {
+    @apply text-2xl font-semibold text-morandi-ink;
   }
 
   @media (max-width: 639px) {

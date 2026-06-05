@@ -1,7 +1,7 @@
 <template>
   <section class="landing-page">
     <div class="landing-page__hero">
-      <div class="landing-page__globe-stage" aria-hidden="true">
+      <div class="landing-page__globe-stage">
         <div class="landing-page__globe">
           <div class="landing-page__globe-grid"></div>
           <div class="landing-page__globe-shade"></div>
@@ -16,10 +16,10 @@
           <span class="landing-page__destination landing-page__destination--new-zealand">{{ t('landing.globe.newZealand') }}</span>
         </div>
         <div class="landing-page__journey-strip">
-          <article v-for="journey in journeys" :key="journey.title" class="landing-page__journey-card">
+          <RouterLink v-for="journey in journeys" :key="journey.slug" :to="{ name: 'recommended-journey', params: { season: journey.slug } }" class="landing-page__journey-card">
             <span>{{ journey.meta }}</span>
             <strong>{{ journey.title }}</strong>
-          </article>
+          </RouterLink>
         </div>
       </div>
 
@@ -60,7 +60,7 @@
         </div>
         <div class="landing-page__map-cover-copy" :style="mapCoverCopyStyle">
           <p class="landing-page__eyebrow text-morandi-sageDark">{{ t('landing.mapCover.eyebrow') }}</p>
-          <h2 class="mt-4 max-w-3xl text-4xl font-semibold leading-tight text-morandi-ink sm:text-6xl">
+          <h2 class="mt-4 max-w-3xl text-3xl font-semibold leading-tight text-morandi-ink sm:text-5xl">
             {{ t('landing.mapCover.title') }}
           </h2>
           <p class="mt-5 max-w-2xl text-base leading-7 text-morandi-sageDark">
@@ -73,7 +73,7 @@
     <div class="landing-page__intro">
       <p class="landing-page__eyebrow">{{ t('landing.introEyebrow') }}</p>
       <div class="landing-page__intro-grid">
-        <h2 class="text-4xl font-semibold leading-tight text-morandi-ink sm:text-5xl">
+        <h2 class="text-3xl font-semibold leading-tight text-morandi-ink sm:text-4xl">
           {{ t('landing.introTitle') }}
         </h2>
         <!-- <p class="text-base leading-8 text-morandi-sageDark">
@@ -93,7 +93,7 @@
     <div class="landing-page__showcase">
       <div>
         <p class="landing-page__eyebrow">{{ t('landing.showcaseEyebrow') }}</p>
-        <h2 class="mt-4 max-w-3xl text-4xl font-semibold leading-tight text-morandi-ink sm:text-6xl">
+        <h2 class="mt-4 max-w-3xl text-3xl font-semibold leading-tight text-morandi-ink sm:text-5xl">
           {{ t('landing.showcaseTitle') }}
         </h2>
       </div>
@@ -121,10 +121,13 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { recommendedJourneys } from '@/data/recommendedJourneys';
+import type { SupportedLocale } from '@/i18n/messages';
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const mapCoverSection = ref<HTMLElement | null>(null);
 const mapCoverProgress = ref(0);
+const activeLocale = computed(() => locale.value as SupportedLocale);
 
 const clampProgress = (value: number) => Math.min(1, Math.max(0, value));
 
@@ -209,18 +212,14 @@ const sampleStops = computed(() => [
   }
 ]);
 
-const journeys = computed(() => [
-  {
-    meta: t('landing.journeys.springMeta'),
-    title: t('landing.journeys.springTitle')
-  },
-  {
-    meta: t('landing.journeys.summerMeta'),
-    title: t('landing.journeys.summerTitle')
-  },
-  {
-    meta: t('landing.journeys.autumnMeta'),
-    title: t('landing.journeys.autumnTitle')
-  }
-]);
+const journeys = computed(() =>
+  recommendedJourneys.map((journey) => {
+    const content = journey.locales[activeLocale.value] || journey.locales['zh-TW'];
+    return {
+      slug: journey.slug,
+      meta: content.seasonLabel,
+      title: content.title
+    };
+  })
+);
 </script>
