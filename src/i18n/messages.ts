@@ -105,11 +105,168 @@ export const messages = {
       loading: 'Loading trips...',
       emptyTitle: 'No trips yet',
       emptyDescription: 'Create your first trip and start preparing an AI itinerary portfolio demo.',
-      deleteConfirm: 'Delete this trip?'
+      deleteConfirm: 'Delete this trip?',
+      deleteModal: {
+        title: 'Delete this trip?',
+        message: 'This will remove the trip and its itinerary items. This action cannot be undone.'
+      },
+      card: {
+        noDestination: 'No destination set',
+        people: '{count} people',
+        plannedCount: '{count} itinerary items',
+        edit: 'Edit',
+        delete: 'Delete'
+      },
+      modal: {
+        eyebrowEdit: 'Edit trip',
+        eyebrowAdd: 'New trip',
+        titleEdit: 'Edit trip',
+        titleAdd: 'Create new trip',
+        close: 'Close',
+        name: 'Trip name',
+        destination: 'Destination',
+        destinationPlaceholder: 'For example: Kyoto',
+        people: 'People',
+        dateStart: 'Start date',
+        dateEnd: 'End date',
+        dailyStart: 'Daily start',
+        dailyEnd: 'Daily end',
+        travelStyle: 'Travel style',
+        styles: {
+          relaxed: 'Relaxed',
+          balanced: 'Balanced',
+          packed: 'Packed'
+        },
+        cancel: 'Cancel',
+        save: 'Save',
+        dateError: 'End date cannot be earlier than the start date.'
+      }
+    },
+    tripDetail: {
+      backToTrips: '← Back to trips',
+      loading: 'Loading trip...',
+      loadFailed: 'Unable to load this trip. Please check the link or go back to the trip list.',
+      people: '{count} people',
+      daysTitle: 'Days',
+      dayLabel: 'Day {day}',
+      daySpotCount: '{count} itinerary items',
+      confirmDeleteSpot: 'Delete this itinerary item?',
+      confirmDeleteCandidate: 'Delete this candidate spot?',
+      deleteDialog: {
+        spotTitle: 'Delete this itinerary item?',
+        spotMessage: 'This itinerary item will be removed from the current day.',
+        candidateTitle: 'Delete this candidate spot?',
+        candidateMessage: 'This candidate spot will be removed from the planning pool.'
+      },
+      actions: {
+        edit: 'Edit',
+        delete: 'Delete'
+      },
+      travelStyles: {
+        relaxed: 'Relaxed',
+        balanced: 'Balanced',
+        packed: 'Packed'
+      },
+      priorities: {
+        must: 'Must visit',
+        high: 'High priority',
+        medium: 'Optional',
+        low: 'If time allows'
+      },
+      categories: {
+        sightseeing: 'Sightseeing',
+        food: 'Food',
+        shopping: 'Shopping',
+        museum: 'Museum',
+        hotel: 'Hotel'
+      },
+      timeline: {
+        title: 'Day {day} timeline',
+        totalMinutes: '{total} minutes including transport estimates',
+        addSpot: 'Add itinerary item',
+        dragHint: 'Drag to reorder',
+        emptyAddress: 'No address/area',
+        empty: 'No itinerary items for this day yet. Add candidate spots first, then start AI planning.'
+      },
+      candidates: {
+        title: 'Candidate pool',
+        count: '{count} spots',
+        emptyAddress: 'No area provided',
+        duration: '{minutes} minutes',
+        empty: 'Add a few places you want to visit before starting AI planning.'
+      },
+      candidateForm: {
+        title: 'Candidate spots',
+        name: 'Spot name',
+        address: 'Address / area',
+        addressPlaceholder: 'For example: Nakagyo Ward, Taipei Xinyi',
+        category: 'Type',
+        priority: 'Priority',
+        duration: 'Stay minutes',
+        openTime: 'Opens',
+        closeTime: 'Closes',
+        notes: 'Notes',
+        notesPlaceholder: 'Food ideas, tickets, companion preferences...',
+        saving: 'Saving...',
+        update: 'Update candidate spot',
+        add: 'Add candidate spot',
+        cancelEdit: 'Cancel editing',
+        updated: 'Candidate spot updated.',
+        added: 'Candidate spot added.',
+        saveFailed: 'Save failed. Please try again later.'
+      },
+      ai: {
+        title: 'AI planning',
+        description: 'Mock AI arranges by priority, stay time, and daily rhythm.',
+        destination: 'Destination',
+        dailyStart: 'Daily start',
+        dailyEnd: 'Daily end',
+        travelStyle: 'Travel style',
+        planning: 'AI is planning...',
+        plan: 'Start AI itinerary planning',
+        note: 'AI keeps existing timeline items and only adds candidate spots that have not been scheduled yet. Transport notes can still be edited manually.'
+      },
+      collaborators: {
+        title: 'Shared editing',
+        description: 'Invite by email, or share an invite link or QR code.',
+        generating: 'Generating',
+        inviteLink: 'Invite link',
+        sending: 'Sending',
+        invite: 'Invite',
+        copy: 'Copy',
+        qrHelp: 'Friends can scan the QR code or open the link, then sign in/sign up or join first as a guest.',
+        empty: 'No collaborators invited yet.',
+        inviteSuccess: 'Added to the collaborator list.',
+        inviteFailed: 'Email not found. You can also use an invite link or QR code.',
+        linkSuccess: 'Invite link created. Copy it or let friends scan the QR code.',
+        linkFailed: 'Unable to create invite link right now. Please try again later.',
+        copied: 'Invite link copied.'
+      },
+      spotEditor: {
+        editTitle: 'Edit itinerary item',
+        addTitle: 'Add itinerary item',
+        close: 'Close',
+        name: 'Spot name',
+        start: 'Start',
+        duration: 'Stay minutes',
+        end: 'End',
+        transportMinutes: 'Transport minutes',
+        address: 'Address / area',
+        transportNote: 'Transport note',
+        notes: 'Notes',
+        cancel: 'Cancel',
+        save: 'Save',
+        defaultTransportNote: 'Added manually. You can add transport details.'
+      }
     },
     common: {
       notFoundTitle: 'Page not found',
-      backToTrips: 'Back to trips'
+      backToTrips: 'Back to trips',
+      confirm: {
+        eyebrow: 'Please confirm',
+        cancel: 'Cancel',
+        delete: 'Delete'
+      }
     }
   },
   'zh-TW': {
@@ -210,18 +367,175 @@ export const messages = {
       }
     },
     trips: {
-      workspace: 'Trip workspace',
+      workspace: '旅程工作區',
       title: '我的旅程',
       description: '建立旅程、加入候選景點，再讓 AI 先排一版可以手動調整的行程。',
       addTrip: '新增旅程',
       loading: '讀取旅程中...',
       emptyTitle: '還沒有旅程',
       emptyDescription: '新增第一個旅程，開始準備 AI 排程作品展示。',
-      deleteConfirm: '確定要刪除這趟旅程嗎？'
+      deleteConfirm: '確定要刪除這趟旅程嗎？',
+      deleteModal: {
+        title: '刪除這趟旅程？',
+        message: '這會移除旅程與裡面的行程內容，刪除後無法復原。'
+      },
+      card: {
+        noDestination: '未設定目的地',
+        people: '{count} 人',
+        plannedCount: '{count} 個行程',
+        edit: '編輯',
+        delete: '刪除'
+      },
+      modal: {
+        eyebrowEdit: '編輯旅程',
+        eyebrowAdd: '新增旅程',
+        titleEdit: '編輯旅程',
+        titleAdd: '建立新旅程',
+        close: '關閉',
+        name: '旅程名稱',
+        destination: '目的地',
+        destinationPlaceholder: '例如：京都',
+        people: '人數',
+        dateStart: '開始日期',
+        dateEnd: '結束日期',
+        dailyStart: '每日開始',
+        dailyEnd: '每日結束',
+        travelStyle: '旅行風格',
+        styles: {
+          relaxed: '輕鬆慢遊',
+          balanced: '適中平衡',
+          packed: '充實緊湊'
+        },
+        cancel: '取消',
+        save: '儲存',
+        dateError: '結束日期不能早於開始日期。'
+      }
+    },
+    tripDetail: {
+      backToTrips: '← 回旅程列表',
+      loading: '讀取旅程中...',
+      loadFailed: '無法讀取這趟旅程，請確認連結或回到旅程列表。',
+      people: '{count} 人',
+      daysTitle: '天數',
+      dayLabel: '第 {day} 天',
+      daySpotCount: '{count} 個行程',
+      confirmDeleteSpot: '確定要刪除這個行程嗎？',
+      confirmDeleteCandidate: '確定要刪除這個候選景點嗎？',
+      deleteDialog: {
+        spotTitle: '刪除這個行程？',
+        spotMessage: '這個行程會從目前天數中移除。',
+        candidateTitle: '刪除這個候選景點？',
+        candidateMessage: '這個候選景點會從候選池中移除。'
+      },
+      actions: {
+        edit: '編輯',
+        delete: '刪除'
+      },
+      travelStyles: {
+        relaxed: '輕鬆慢遊',
+        balanced: '適中平衡',
+        packed: '充實緊湊'
+      },
+      priorities: {
+        must: '必去',
+        high: '很想去',
+        medium: '可安排',
+        low: '有空再去'
+      },
+      categories: {
+        sightseeing: '景點',
+        food: '美食',
+        shopping: '購物',
+        museum: '展館',
+        hotel: '住宿'
+      },
+      timeline: {
+        title: '第 {day} 天時間軸',
+        totalMinutes: '{total} 分鐘含交通估算',
+        addSpot: '手動加入行程',
+        dragHint: '拖拉調整順序',
+        emptyAddress: '未填地址/區域',
+        empty: '這一天還沒有行程。可以先新增候選景點，再啟用 AI 排程。'
+      },
+      candidates: {
+        title: '候選池',
+        count: '{count} 個',
+        emptyAddress: '未填區域',
+        duration: '{minutes} 分鐘',
+        empty: '先加入幾個想去的景點，再啟用 AI 排程。'
+      },
+      candidateForm: {
+        title: '候選景點',
+        name: '景點名稱',
+        address: '地址 / 區域',
+        addressPlaceholder: '例如：中京區、台北信義區',
+        category: '類型',
+        priority: '優先級',
+        duration: '停留分鐘',
+        openTime: '營業開始',
+        closeTime: '營業結束',
+        notes: '備註',
+        notesPlaceholder: '想吃的店、門票、同行者偏好...',
+        saving: '儲存中...',
+        update: '更新候選景點',
+        add: '加入候選景點',
+        cancelEdit: '取消編輯',
+        updated: '候選景點已更新。',
+        added: '候選景點已加入。',
+        saveFailed: '儲存失敗，請稍後再試。'
+      },
+      ai: {
+        title: 'AI 排程',
+        description: 'Mock AI 會依優先級、停留時間與每日節奏安排。',
+        destination: '目的地',
+        dailyStart: '每日開始',
+        dailyEnd: '每日結束',
+        travelStyle: '旅行風格',
+        planning: 'AI 安排中...',
+        plan: '啟用 AI 排行程',
+        note: 'AI 會保留時間軸中既有行程，只補入尚未排入的候選景點；交通備註仍可手動修正。'
+      },
+      collaborators: {
+        title: '共同編輯',
+        description: '可用 email 邀請，也可分享連結或 QR code。',
+        generating: '產生中',
+        inviteLink: '邀請連結',
+        sending: '送出中',
+        invite: '邀請',
+        copy: '複製',
+        qrHelp: '朋友掃 QR 或打開連結後，可以登入/註冊再加入，也可以用訪客名稱先加入旅程。',
+        empty: '尚未邀請共編者。',
+        inviteSuccess: '已加入共同編輯清單。',
+        inviteFailed: '找不到這個 email，也可以改用邀請連結或 QR code。',
+        linkSuccess: '邀請連結已建立，可以複製或讓朋友掃 QR code。',
+        linkFailed: '目前無法建立邀請連結，請稍後再試。',
+        copied: '邀請連結已複製。'
+      },
+      spotEditor: {
+        editTitle: '編輯行程',
+        addTitle: '手動加入行程',
+        close: '關閉',
+        name: '景點名稱',
+        start: '開始',
+        duration: '停留分鐘',
+        end: '結束',
+        transportMinutes: '交通分鐘',
+        address: '地址 / 區域',
+        transportNote: '交通備註',
+        notes: '備註',
+        cancel: '取消',
+        save: '儲存',
+        defaultTransportNote: '手動加入，可自行補上交通方式。'
+      }
     },
     common: {
       notFoundTitle: '找不到這個頁面',
-      backToTrips: '回旅程列表'
+      backToTrips: '回旅程列表',
+      confirm: {
+        eyebrow: '請再次確認',
+        cancel: '取消',
+        delete: '刪除'
+      }
     }
   },
   ja: {
@@ -322,18 +636,175 @@ export const messages = {
       }
     },
     trips: {
-      workspace: 'Trip workspace',
+      workspace: '旅程ワークスペース',
       title: '旅程一覧',
       description: '旅程を作成し、候補スポットを追加して、AI が下書きしたプランを手動で調整できます。',
       addTrip: '旅程を追加',
       loading: '旅程を読み込み中...',
       emptyTitle: 'まだ旅程がありません',
       emptyDescription: '最初の旅程を作成して、AI 旅程作成のデモを始めましょう。',
-      deleteConfirm: 'この旅程を削除しますか？'
+      deleteConfirm: 'この旅程を削除しますか？',
+      deleteModal: {
+        title: 'この旅程を削除しますか？',
+        message: '旅程と中の行程が削除されます。この操作は元に戻せません。'
+      },
+      card: {
+        noDestination: '目的地未設定',
+        people: '{count} 人',
+        plannedCount: '行程 {count} 件',
+        edit: '編集',
+        delete: '削除'
+      },
+      modal: {
+        eyebrowEdit: '旅程を編集',
+        eyebrowAdd: '新しい旅程',
+        titleEdit: '旅程を編集',
+        titleAdd: '新しい旅程を作成',
+        close: '閉じる',
+        name: '旅程名',
+        destination: '目的地',
+        destinationPlaceholder: '例：京都',
+        people: '人数',
+        dateStart: '開始日',
+        dateEnd: '終了日',
+        dailyStart: '毎日の開始',
+        dailyEnd: '毎日の終了',
+        travelStyle: '旅のスタイル',
+        styles: {
+          relaxed: 'ゆったり',
+          balanced: 'バランス',
+          packed: 'しっかり巡る'
+        },
+        cancel: 'キャンセル',
+        save: '保存',
+        dateError: '終了日は開始日より前にできません。'
+      }
+    },
+    tripDetail: {
+      backToTrips: '← 旅程一覧へ戻る',
+      loading: '旅程を読み込み中...',
+      loadFailed: 'この旅程を読み込めません。リンクを確認するか、旅程一覧へ戻ってください。',
+      people: '{count} 人',
+      daysTitle: '日数',
+      dayLabel: '{day} 日目',
+      daySpotCount: '行程 {count} 件',
+      confirmDeleteSpot: 'この行程を削除しますか？',
+      confirmDeleteCandidate: 'この候補スポットを削除しますか？',
+      deleteDialog: {
+        spotTitle: 'この行程を削除しますか？',
+        spotMessage: 'この行程は現在の日程から削除されます。',
+        candidateTitle: 'この候補スポットを削除しますか？',
+        candidateMessage: 'この候補スポットは候補リストから削除されます。'
+      },
+      actions: {
+        edit: '編集',
+        delete: '削除'
+      },
+      travelStyles: {
+        relaxed: 'ゆったり',
+        balanced: 'バランス',
+        packed: 'しっかり巡る'
+      },
+      priorities: {
+        must: '必ず行きたい',
+        high: '優先度高め',
+        medium: '候補',
+        low: '時間があれば'
+      },
+      categories: {
+        sightseeing: '観光',
+        food: 'グルメ',
+        shopping: '買い物',
+        museum: '展示・博物館',
+        hotel: '宿泊'
+      },
+      timeline: {
+        title: '{day} 日目のタイムライン',
+        totalMinutes: '移動時間込みで {total} 分',
+        addSpot: '行程を手動追加',
+        dragHint: 'ドラッグして順番を変更',
+        emptyAddress: '住所/エリア未入力',
+        empty: 'この日はまだ行程がありません。候補スポットを追加してから AI 計画を開始できます。'
+      },
+      candidates: {
+        title: '候補リスト',
+        count: '{count} 件',
+        emptyAddress: 'エリア未入力',
+        duration: '{minutes} 分',
+        empty: 'AI 計画を始める前に、行きたい場所をいくつか追加してください。'
+      },
+      candidateForm: {
+        title: '候補スポット',
+        name: 'スポット名',
+        address: '住所 / エリア',
+        addressPlaceholder: '例：中京区、台北信義区',
+        category: 'タイプ',
+        priority: '優先度',
+        duration: '滞在分数',
+        openTime: '営業開始',
+        closeTime: '営業終了',
+        notes: 'メモ',
+        notesPlaceholder: '食べたい店、チケット、同行者の好み...',
+        saving: '保存中...',
+        update: '候補スポットを更新',
+        add: '候補スポットを追加',
+        cancelEdit: '編集をキャンセル',
+        updated: '候補スポットを更新しました。',
+        added: '候補スポットを追加しました。',
+        saveFailed: '保存に失敗しました。時間をおいて再試行してください。'
+      },
+      ai: {
+        title: 'AI 計画',
+        description: 'Mock AI が優先度、滞在時間、1日のリズムに合わせて配置します。',
+        destination: '目的地',
+        dailyStart: '毎日の開始',
+        dailyEnd: '毎日の終了',
+        travelStyle: '旅のスタイル',
+        planning: 'AI が計画中...',
+        plan: 'AI で旅程を作成',
+        note: 'AI は既存のタイムライン項目を残し、まだ予定に入っていない候補スポットだけを追加します。移動メモは手動で編集できます。'
+      },
+      collaborators: {
+        title: '共同編集',
+        description: 'メールで招待するほか、リンクや QR code も共有できます。',
+        generating: '作成中',
+        inviteLink: '招待リンク',
+        sending: '送信中',
+        invite: '招待',
+        copy: 'コピー',
+        qrHelp: '友人は QR を読み取るかリンクを開き、ログイン/登録して参加できます。ゲスト名で先に参加することもできます。',
+        empty: '共同編集者はまだ招待されていません。',
+        inviteSuccess: '共同編集リストに追加しました。',
+        inviteFailed: 'このメールは見つかりません。招待リンクまたは QR code も利用できます。',
+        linkSuccess: '招待リンクを作成しました。コピーするか、友人に QR code を読み取ってもらえます。',
+        linkFailed: '現在、招待リンクを作成できません。時間をおいて再試行してください。',
+        copied: '招待リンクをコピーしました。'
+      },
+      spotEditor: {
+        editTitle: '行程を編集',
+        addTitle: '行程を手動追加',
+        close: '閉じる',
+        name: 'スポット名',
+        start: '開始',
+        duration: '滞在分数',
+        end: '終了',
+        transportMinutes: '移動分数',
+        address: '住所 / エリア',
+        transportNote: '移動メモ',
+        notes: 'メモ',
+        cancel: 'キャンセル',
+        save: '保存',
+        defaultTransportNote: '手動追加。移動方法を自由に追記できます。'
+      }
     },
     common: {
       notFoundTitle: 'ページが見つかりません',
-      backToTrips: '旅程一覧へ戻る'
+      backToTrips: '旅程一覧へ戻る',
+      confirm: {
+        eyebrow: '確認してください',
+        cancel: 'キャンセル',
+        delete: '削除'
+      }
     }
   }
 };

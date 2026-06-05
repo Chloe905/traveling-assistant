@@ -1,59 +1,59 @@
 <template>
   <form class="rounded-2xl border border-morandi-linen bg-white p-4" @submit.prevent="handleSubmit">
-    <h3 class="text-lg font-bold text-morandi-ink">候選景點</h3>
+    <h3 class="text-lg font-bold text-morandi-ink">{{ t('tripDetail.candidateForm.title') }}</h3>
     <div class="mt-4 grid gap-3">
       <label>
-        <span class="form-label">景點名稱</span>
+        <span class="form-label">{{ t('tripDetail.candidateForm.name') }}</span>
         <input v-model="form.spotName" class="form-field" type="text" required />
       </label>
       <label>
-        <span class="form-label">地址 / 區域</span>
-        <input v-model="form.address" class="form-field" type="text" placeholder="例如：中京區、台北信義區" />
+        <span class="form-label">{{ t('tripDetail.candidateForm.address') }}</span>
+        <input v-model="form.address" class="form-field" type="text" :placeholder="t('tripDetail.candidateForm.addressPlaceholder')" />
       </label>
       <div class="grid gap-3 sm:grid-cols-2">
         <label>
-          <span class="form-label">類型</span>
+          <span class="form-label">{{ t('tripDetail.candidateForm.category') }}</span>
           <select v-model="form.category" class="form-field">
-            <option value="sightseeing">景點</option>
-            <option value="food">美食</option>
-            <option value="shopping">購物</option>
-            <option value="museum">展館</option>
-            <option value="hotel">住宿</option>
+            <option value="sightseeing">{{ t('tripDetail.categories.sightseeing') }}</option>
+            <option value="food">{{ t('tripDetail.categories.food') }}</option>
+            <option value="shopping">{{ t('tripDetail.categories.shopping') }}</option>
+            <option value="museum">{{ t('tripDetail.categories.museum') }}</option>
+            <option value="hotel">{{ t('tripDetail.categories.hotel') }}</option>
           </select>
         </label>
         <label>
-          <span class="form-label">優先級</span>
+          <span class="form-label">{{ t('tripDetail.candidateForm.priority') }}</span>
           <select v-model="form.priority" class="form-field">
-            <option value="must">必去</option>
-            <option value="high">很想去</option>
-            <option value="medium">可安排</option>
-            <option value="low">有空再去</option>
+            <option value="must">{{ t('tripDetail.priorities.must') }}</option>
+            <option value="high">{{ t('tripDetail.priorities.high') }}</option>
+            <option value="medium">{{ t('tripDetail.priorities.medium') }}</option>
+            <option value="low">{{ t('tripDetail.priorities.low') }}</option>
           </select>
         </label>
       </div>
       <div class="grid gap-3 sm:grid-cols-3">
         <label>
-          <span class="form-label">停留分鐘</span>
+          <span class="form-label">{{ t('tripDetail.candidateForm.duration') }}</span>
           <input v-model.number="form.durationMinutes" class="form-field" type="number" min="15" step="15" />
         </label>
         <label>
-          <span class="form-label">營業開始</span>
+          <span class="form-label">{{ t('tripDetail.candidateForm.openTime') }}</span>
           <input v-model="form.openTime" class="form-field" type="time" />
         </label>
         <label>
-          <span class="form-label">營業結束</span>
+          <span class="form-label">{{ t('tripDetail.candidateForm.closeTime') }}</span>
           <input v-model="form.closeTime" class="form-field" type="time" />
         </label>
       </div>
       <label>
-        <span class="form-label">備註</span>
-        <textarea v-model="form.notes" class="form-field min-h-20" placeholder="想吃的店、門票、同行者偏好..." />
+        <span class="form-label">{{ t('tripDetail.candidateForm.notes') }}</span>
+        <textarea v-model="form.notes" class="form-field min-h-20" :placeholder="t('tripDetail.candidateForm.notesPlaceholder')" />
       </label>
     </div>
     <button class="primary-button mt-4 w-full" type="submit" :disabled="isSubmitting">
-      {{ isSubmitting ? '儲存中...' : editingSpot ? '更新候選景點' : '加入候選景點' }}
+      {{ isSubmitting ? t('tripDetail.candidateForm.saving') : editingSpot ? t('tripDetail.candidateForm.update') : t('tripDetail.candidateForm.add') }}
     </button>
-    <button v-if="editingSpot" class="ghost-button mt-2 w-full" type="button" @click="resetForm">取消編輯</button>
+    <button v-if="editingSpot" class="ghost-button mt-2 w-full" type="button" @click="resetForm">{{ t('tripDetail.candidateForm.cancelEdit') }}</button>
     <p v-if="message" class="mt-3 rounded-lg px-3 py-2 text-sm" :class="hasError ? 'bg-morandi-rose/15 text-morandi-ink' : 'bg-morandi-sage/15 text-morandi-sageDark'">
       {{ message }}
     </p>
@@ -62,6 +62,7 @@
 
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import type { CandidateSpot, SpotPriority } from '@/types/models'
 
 const props = defineProps<{
@@ -88,6 +89,7 @@ const form = reactive(createEmptyForm())
 const isSubmitting = ref(false)
 const message = ref('')
 const hasError = ref(false)
+const { t } = useI18n()
 
 watch(
   () => props.editingSpot,
@@ -112,11 +114,11 @@ const handleSubmit = async () => {
   try {
     const payload = props.editingSpot ? { ...props.editingSpot, ...form } : { ...form }
     await props.onSave(payload)
-    message.value = props.editingSpot ? '候選景點已更新。' : '候選景點已加入。'
+    message.value = props.editingSpot ? t('tripDetail.candidateForm.updated') : t('tripDetail.candidateForm.added')
     resetForm()
   } catch {
     hasError.value = true
-    message.value = '儲存失敗，請稍後再試。'
+    message.value = t('tripDetail.candidateForm.saveFailed')
   } finally {
     isSubmitting.value = false
   }

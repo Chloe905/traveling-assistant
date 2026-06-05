@@ -43,6 +43,17 @@
       @close="closeModal"
       @save="handleSave"
     />
+
+    <ConfirmDialog
+      v-if="pendingDeleteTripId"
+      :eyebrow="t('common.confirm.eyebrow')"
+      :title="t('trips.deleteModal.title')"
+      :message="t('trips.deleteModal.message')"
+      :cancel-label="t('common.confirm.cancel')"
+      :confirm-label="t('common.confirm.delete')"
+      @cancel="pendingDeleteTripId = null"
+      @confirm="confirmDeleteTrip"
+    />
   </section>
 </template>
 
@@ -50,6 +61,7 @@
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import ConfirmDialog from '@/components/ConfirmDialog.vue'
 import TripCard from '@/components/TripCard.vue'
 import TripModal from '@/components/TripModal.vue'
 import { useTripStore } from '@/stores/trip'
@@ -61,6 +73,7 @@ const { t } = useI18n()
 const isModalOpen = ref(false)
 const modalMode = ref<'add' | 'edit'>('add')
 const selectedTrip = ref<Trip | null>(null)
+const pendingDeleteTripId = ref<string | null>(null)
 
 onMounted(() => {
   tripStore.fetchTrips()
@@ -104,8 +117,12 @@ const handleSave = async (payload: TripForm) => {
 }
 
 const handleDelete = async (id: string) => {
-  if (window.confirm(t('trips.deleteConfirm'))) {
-    await tripStore.deleteTrip(id)
-  }
+  pendingDeleteTripId.value = id
+}
+
+const confirmDeleteTrip = async () => {
+  if (!pendingDeleteTripId.value) return
+  await tripStore.deleteTrip(pendingDeleteTripId.value)
+  pendingDeleteTripId.value = null
 }
 </script>
