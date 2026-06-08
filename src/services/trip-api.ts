@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid'
 import { supabase } from './supabase'
+import { useAuthStore } from '@/stores/auth'
 import type {
   AcceptInviteResult,
   AiPlanRequest,
@@ -12,8 +13,7 @@ import type {
   SpotPriority,
   Trip,
   TripDay,
-  TripForm,
-  User
+  TripForm
 } from '@/types/models'
 import { addMinutesToTime } from '@/utils/planner'
 
@@ -48,10 +48,7 @@ const priorityRank: Record<SpotPriority, number> = {
   low: 3
 }
 
-const getCurrentUser = () => {
-  const user = localStorage.getItem('user')
-  return user ? (JSON.parse(user) as User) : null
-}
+const getCurrentUser = () => useAuthStore().user
 
 const getDayCount = (dateStart: string, dateEnd: string) => {
   const start = new Date(dateStart).getTime()
