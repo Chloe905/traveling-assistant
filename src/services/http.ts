@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useAuthStore } from '@/stores/auth'
 
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
@@ -10,13 +11,12 @@ export const apiClient = axios.create({
 })
 
 apiClient.interceptors.request.use(config => {
-  const token = localStorage.getItem('token')
+  const authStore = useAuthStore()
+  const { token, guestId } = authStore
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
-
-  const guestId = localStorage.getItem('guestId')
 
   if (!token && guestId) {
     config.headers['X-Guest-Id'] = guestId
@@ -29,8 +29,8 @@ apiClient.interceptors.response.use(
   response => response,
   error => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
+      const authStore = useAuthStore()
+      void authStore.logout()
     }
 
     return Promise.reject(error)

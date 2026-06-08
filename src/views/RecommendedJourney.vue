@@ -79,7 +79,6 @@ import { useRoute, useRouter } from 'vue-router';
 import { v4 as uuid } from 'uuid';
 import { getRecommendedJourney } from '@/data/recommendedJourneys';
 import type { SupportedLocale } from '@/i18n/messages';
-import { supabase } from '@/services/supabase';
 import { useAuthStore } from '@/stores/auth';
 import { useTripStore } from '@/stores/trip';
 import type { CandidateSpot, Spot, TripDay, TripForm } from '@/types/models';
@@ -193,9 +192,7 @@ const copyRecommendedJourney = async () => {
 
   if (!content.value) return;
 
-  const { data } = await supabase.auth.getSession();
-
-  if (!authStore.token || !authStore.user || !data.session) {
+  if (!authStore.token || !authStore.user) {
     await router.push({ name: 'sign-in', query: { redirect: route.fullPath } });
     return;
   }
@@ -220,9 +217,7 @@ const copyRecommendedJourney = async () => {
     await tripStore.updateTripById(trip.id, { days, candidateSpots });
     await router.push({ name: 'trip-detail', params: { id: trip.id } });
   } catch {
-    const { data } = await supabase.auth.getSession();
-
-    if (!data.session) {
+    if (!authStore.token || !authStore.user) {
       await router.push({ name: 'sign-in', query: { redirect: route.fullPath } });
       return;
     }

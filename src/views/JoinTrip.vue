@@ -106,8 +106,8 @@ const acceptAsUser = async () => {
 const acceptAsGuest = async () => {
   try {
     const guestIdKey = `guest:${token}`
-    const guestId = localStorage.getItem(guestIdKey) || uuid()
-    localStorage.setItem(guestIdKey, guestId)
+    const guestId = sessionStorage.getItem(guestIdKey) || uuid()
+    sessionStorage.setItem(guestIdKey, guestId)
     const result = await tripApi.acceptInvite(token, { guestName: guestName.value, guestId })
     authStore.setGuestSession(result.collaborator.guestId || guestId, result.collaborator.name)
     await handleAccepted(result.tripId)
