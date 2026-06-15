@@ -98,10 +98,21 @@ export const useTripStore = defineStore('trip', () => {
 
   const runAiPlan = async (payload: AiPlanRequest) => {
     if (!currentTrip.value) return null
-    const plan = await tripApi.runAiPlan(currentTrip.value.id, payload)
-    currentTrip.value = plan.trip
-    selectedDayId.value = plan.days[0]?.id || '1'
-    return plan
+    errorMessage.value = ''
+    try {
+      const plan = await tripApi.runAiPlan(currentTrip.value.id, payload)
+      currentTrip.value = plan.trip
+      selectedDayId.value = plan.days[0]?.id || '1'
+      return plan
+    } catch (error) {
+      const message = error instanceof Error
+        ? error.message
+        : typeof error === 'object' && error && 'message' in error
+          ? String(error.message)
+          : '未知錯誤'
+      setError(`AI 排程失敗：${message}`)
+      return null
+    }
   }
 
   const updateSpot = async (dayId: string, spot: Spot) => {
