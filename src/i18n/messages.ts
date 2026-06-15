@@ -217,14 +217,53 @@ export const messages = {
       },
       ai: {
         title: 'AI planning',
-        description: 'Mock AI arranges by priority, stay time, and daily rhythm.',
+        description: 'Plan from saved spots, or describe the trip style and let AI draft the first route.',
+        candidateMode: 'Use saved spots',
+        preferenceMode: 'I need ideas',
         destination: 'Destination',
+        people: 'Travelers',
+        playDays: 'Days',
+        adults: 'Adults',
+        children: 'Children',
+        season: 'Season',
+        seasons: {
+          spring: 'Spring',
+          summer: 'Summer',
+          autumn: 'Autumn',
+          winter: 'Winter'
+        },
+        routePreference: 'Route style',
+        routes: {
+          mixed: 'Famous + local',
+          classic: 'First-time must visits',
+          hidden: 'Hidden gems'
+        },
         dailyStart: 'Daily start',
         dailyEnd: 'Daily end',
         travelStyle: 'Travel style',
+        attractionTypes: 'Preferred places',
+        attractions: {
+          beach: 'Beach',
+          mountain: 'Mountain',
+          forest: 'Forest',
+          snow: 'Snow',
+          city: 'City',
+          shopping: 'Shopping',
+          family: 'Family',
+          senior: 'Senior friendly'
+        },
+        mobilityNeeds: 'Special pace needs',
+        mobility: {
+          none: 'No special needs',
+          kids: 'Kid friendly',
+          senior: 'Senior friendly'
+        },
+        specialRequests: 'Traveler notes',
+        specialRequestsPlaceholder: 'For example: loves museums, wants fewer stairs, wants one secret cafe each day...',
         planning: 'AI is planning...',
         plan: 'Start AI itinerary planning',
-        note: 'AI keeps existing timeline items and only adds candidate spots that have not been scheduled yet. Transport notes can still be edited manually.'
+        note: 'AI keeps existing timeline items and only adds candidate spots that have not been scheduled yet. Transport notes can still be edited manually.',
+        preferenceNote: 'AI will create editable candidate spots and arrange them by nearby areas, pace, travel time, and daily rhythm.'
       },
       collaborators: {
         title: 'Shared editing',
@@ -486,14 +525,53 @@ export const messages = {
       },
       ai: {
         title: 'AI 排程',
-        description: 'Mock AI 會依優先級、停留時間與每日節奏安排。',
+        description: '可以用已收藏景點排程，也可以只填旅遊偏好，讓 AI 先產生第一版路線。',
+        candidateMode: '使用候選景點',
+        preferenceMode: '我沒有概念',
         destination: '目的地',
+        people: '旅遊人數',
+        playDays: '遊玩天數',
+        adults: '大人',
+        children: '小孩',
+        season: '旅遊季節',
+        seasons: {
+          spring: '春天',
+          summer: '夏天',
+          autumn: '秋天',
+          winter: '冬天'
+        },
+        routePreference: '路線偏好',
+        routes: {
+          mixed: '經典加私房',
+          classic: '第一次必去',
+          hidden: '秘境路線'
+        },
         dailyStart: '每日開始',
         dailyEnd: '每日結束',
         travelStyle: '旅行風格',
+        attractionTypes: '喜歡的景點類型',
+        attractions: {
+          beach: '海邊',
+          mountain: '爬山',
+          forest: '森林',
+          snow: '雪地',
+          city: '都市',
+          shopping: '逛街',
+          family: '親子',
+          senior: '老人友善'
+        },
+        mobilityNeeds: '行程友善需求',
+        mobility: {
+          none: '無特殊需求',
+          kids: '親子友善',
+          senior: '老人友善'
+        },
+        specialRequests: '行程友善需求補充',
+        specialRequestsPlaceholder: '例如：喜歡美術館、不要太多樓梯、每天想排一間秘密咖啡廳...',
         planning: 'AI 安排中...',
         plan: '啟用 AI 排行程',
-        note: 'AI 會保留時間軸中既有行程，只補入尚未排入的候選景點；交通備註仍可手動修正。'
+        note: 'AI 會保留時間軸中既有行程，只補入尚未排入的候選景點；交通備註仍可手動修正。',
+        preferenceNote: 'AI 會先產生可編輯的候選景點，再依區域相近性、交通時間、旅遊節奏與每日時間安排完整行程。'
       },
       collaborators: {
         title: '共同編輯',
@@ -755,14 +833,53 @@ export const messages = {
       },
       ai: {
         title: 'AI 計画',
-        description: 'Mock AI が優先度、滞在時間、1日のリズムに合わせて配置します。',
+        description: '保存済みスポットから計画するか、旅の好みだけで最初のルート案を作れます。',
+        candidateMode: '候補を使う',
+        preferenceMode: 'アイデアが欲しい',
         destination: '目的地',
+        people: '人数',
+        playDays: '日数',
+        adults: '大人',
+        children: '子ども',
+        season: '季節',
+        seasons: {
+          spring: '春',
+          summer: '夏',
+          autumn: '秋',
+          winter: '冬'
+        },
+        routePreference: 'ルート傾向',
+        routes: {
+          mixed: '定番 + ローカル',
+          classic: '初めての定番',
+          hidden: '穴場中心'
+        },
         dailyStart: '毎日の開始',
         dailyEnd: '毎日の終了',
         travelStyle: '旅のスタイル',
+        attractionTypes: '好きな場所タイプ',
+        attractions: {
+          beach: '海辺',
+          mountain: '山',
+          forest: '森',
+          snow: '雪景色',
+          city: '都市',
+          shopping: '買い物',
+          family: '親子向け',
+          senior: 'シニア向け'
+        },
+        mobilityNeeds: '配慮したいペース',
+        mobility: {
+          none: '特になし',
+          kids: '子ども向け',
+          senior: 'シニア向け'
+        },
+        specialRequests: '旅行者メモ',
+        specialRequestsPlaceholder: '例：美術館が好き、階段を少なめに、毎日隠れ家カフェを入れたい...',
         planning: 'AI が計画中...',
         plan: 'AI で旅程を作成',
-        note: 'AI は既存のタイムライン項目を残し、まだ予定に入っていない候補スポットだけを追加します。移動メモは手動で編集できます。'
+        note: 'AI は既存のタイムライン項目を残し、まだ予定に入っていない候補スポットだけを追加します。移動メモは手動で編集できます。',
+        preferenceNote: 'AI が編集可能な候補スポットを作成し、近いエリア、移動時間、旅のペース、1日のリズムに合わせて日別に配置します。'
       },
       collaborators: {
         title: '共同編集',

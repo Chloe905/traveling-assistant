@@ -171,6 +171,228 @@ const buildMockPlan = trip => {
   }
 }
 
+const clampNumber = (value, fallback, min, max) => {
+  const number = Number(value)
+  if (Number.isNaN(number)) return fallback
+  return Math.min(max, Math.max(min, number))
+}
+
+const destinationGuides = {
+  paris: [
+    { name: '艾菲爾鐵塔與戰神廣場', category: 'sightseeing', zone: '7區鐵塔周邊', duration: 110, types: ['city', 'family', 'senior'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'classic', priority: 'must' },
+    { name: '塞納河遊船與左岸散步', category: 'sightseeing', zone: '塞納河左岸', duration: 90, types: ['city', 'family', 'senior'], seasons: ['spring', 'summer', 'autumn'], route: 'classic', priority: 'high' },
+    { name: '羅浮宮精華參觀', category: 'museum', zone: '1區羅浮宮', duration: 150, types: ['city', 'family', 'senior'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'classic', priority: 'must' },
+    { name: '杜樂麗花園與橘園美術館', category: 'museum', zone: '1區杜樂麗', duration: 110, types: ['forest', 'city', 'senior'], seasons: ['spring', 'autumn', 'winter'], route: 'mixed', priority: 'high' },
+    { name: '奧賽美術館與聖日耳曼咖啡散步', category: 'museum', zone: '7區左岸', duration: 140, types: ['city', 'shopping', 'senior'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'classic', priority: 'high' },
+    { name: '蒙馬特、聖心堂與小丘街景', category: 'sightseeing', zone: '18區蒙馬特', duration: 130, types: ['city', 'shopping'], seasons: ['spring', 'summer', 'autumn'], route: 'classic', priority: 'high' },
+    { name: '瑪黑區選物店與孚日廣場', category: 'shopping', zone: '3-4區瑪黑', duration: 130, types: ['shopping', 'city', 'senior'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'mixed', priority: 'high' },
+    { name: '聖禮拜堂、巴黎古監獄與西堤島', category: 'sightseeing', zone: '西堤島', duration: 120, types: ['city', 'senior'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'classic', priority: 'high' },
+    { name: '巴黎歌劇院與老佛爺百貨屋頂', category: 'shopping', zone: '9區歌劇院', duration: 120, types: ['shopping', 'city', 'senior'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'classic', priority: 'high' },
+    { name: '香榭麗舍大道與凱旋門', category: 'sightseeing', zone: '8區香榭麗舍', duration: 100, types: ['shopping', 'city', 'senior'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'classic', priority: 'high' },
+    { name: '聖馬丁運河與在地咖啡小店', category: 'food', zone: '10區聖馬丁運河', duration: 110, types: ['city', 'shopping'], seasons: ['spring', 'summer', 'autumn'], route: 'hidden', priority: 'medium' },
+    { name: '巴士底市場與阿里格市集', category: 'food', zone: '11-12區巴士底', duration: 100, types: ['shopping', 'city'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'hidden', priority: 'medium' },
+    { name: '貝爾維爾街區與街頭藝術散步', category: 'sightseeing', zone: '20區貝爾維爾', duration: 105, types: ['city'], seasons: ['spring', 'summer', 'autumn'], route: 'hidden', priority: 'medium' },
+    { name: '拉雪茲神父公墓與安靜街區', category: 'sightseeing', zone: '20區拉雪茲', duration: 90, types: ['forest', 'city'], seasons: ['spring', 'autumn'], route: 'hidden', priority: 'medium' },
+    { name: '凡爾賽宮與花園半日遊', category: 'sightseeing', zone: '凡爾賽', duration: 240, types: ['city', 'forest', 'family', 'senior'], seasons: ['spring', 'summer', 'autumn'], route: 'classic', priority: 'high' },
+    { name: '盧森堡公園與拉丁區書店', category: 'sightseeing', zone: '5-6區拉丁區', duration: 115, types: ['forest', 'shopping', 'family', 'senior'], seasons: ['spring', 'summer', 'autumn'], route: 'mixed', priority: 'medium' },
+    { name: '龐畢度中心與雷阿爾商圈', category: 'museum', zone: '4區龐畢度', duration: 120, types: ['city', 'shopping', 'family'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'mixed', priority: 'medium' },
+    { name: '巴黎地下墓穴或蒙帕納斯觀景', category: 'sightseeing', zone: '14區蒙帕納斯', duration: 105, types: ['city'], seasons: ['summer', 'winter'], route: 'hidden', priority: 'medium' },
+    { name: '布洛涅森林與路易威登基金會', category: 'museum', zone: '16區布洛涅', duration: 150, types: ['forest', 'city', 'family'], seasons: ['spring', 'summer', 'autumn'], route: 'mixed', priority: 'medium' },
+    { name: '巴黎迪士尼一日選配', category: 'sightseeing', zone: '馬恩拉瓦萊', duration: 360, types: ['family'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'classic', priority: 'medium' }
+  ]
+}
+
+const genericGuideTemplates = [
+  { name: '城市代表地標與歷史街區', category: 'sightseeing', zone: '市中心', duration: 110, types: ['city', 'family', 'senior'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'classic', priority: 'must' },
+  { name: '熱門博物館或文化展館', category: 'museum', zone: '文化區', duration: 120, types: ['city', 'family', 'senior'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'classic', priority: 'high' },
+  { name: '主要商圈與在地選物店', category: 'shopping', zone: '商圈區', duration: 110, types: ['shopping', 'city'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'mixed', priority: 'high' },
+  { name: '森林公園與自然散步', category: 'sightseeing', zone: '森林區', duration: 100, types: ['forest', 'family', 'senior'], seasons: ['spring', 'summer', 'autumn'], route: 'mixed', priority: 'medium' },
+  { name: '郊區山景或觀景步道', category: 'sightseeing', zone: '山景區', duration: 140, types: ['mountain', 'forest'], seasons: ['spring', 'summer', 'autumn'], route: 'hidden', priority: 'medium' },
+  { name: '海岸散步與港邊餐廳', category: 'food', zone: '海岸區', duration: 110, types: ['beach', 'family', 'senior'], seasons: ['spring', 'summer', 'autumn'], route: 'mixed', priority: 'medium' },
+  { name: '雪景體驗與暖湯休息', category: 'sightseeing', zone: '雪景區', duration: 130, types: ['snow', 'family'], seasons: ['winter'], route: 'mixed', priority: 'medium' },
+  { name: '在地市場與小吃街', category: 'food', zone: '市場區', duration: 95, types: ['shopping', 'city'], seasons: ['spring', 'summer', 'autumn', 'winter'], route: 'hidden', priority: 'medium' }
+]
+
+const getPreferenceSpotCount = (travelStyle, mobilityNeeds) => {
+  if (mobilityNeeds === 'senior' || mobilityNeeds === 'kids') return 2
+  if (travelStyle === 'packed') return 4
+  if (travelStyle === 'relaxed') return 2
+  return 3
+}
+
+const getPreferenceTransportMinutes = (previousSpot, nextSpot, travelStyle) => {
+  if (!previousSpot) return 0
+  if (previousSpot.zone === nextSpot.zone) return travelStyle === 'packed' ? 12 : 15
+  return travelStyle === 'relaxed' ? 35 : 25
+}
+
+const getPreferencePriority = (index, mobilityNeeds) => {
+  if (index === 0) return 'must'
+  if (mobilityNeeds === 'kids' || mobilityNeeds === 'senior') return index < 3 ? 'high' : 'medium'
+  return index < 4 ? 'high' : 'medium'
+}
+
+const getGuideKey = destination => {
+  const normalized = String(destination || '').toLowerCase()
+  if (normalized.includes('paris') || normalized.includes('巴黎')) return 'paris'
+  return 'generic'
+}
+
+const getDestinationGuide = destination => {
+  const guideKey = getGuideKey(destination)
+  if (guideKey === 'paris') return destinationGuides.paris
+  return genericGuideTemplates.map(item => ({
+    ...item,
+    name: `${destination}${item.name}`
+  }))
+}
+
+const getRouteScore = (spot, routePreference) => {
+  if (routePreference === 'classic') {
+    return spot.route === 'classic' ? 5 : spot.route === 'mixed' ? 2 : 0
+  }
+  if (routePreference === 'hidden') {
+    return spot.route === 'hidden' ? 5 : spot.route === 'mixed' ? 3 : 1
+  }
+  return spot.route === 'mixed' ? 4 : 3
+}
+
+const getSeasonScore = (spot, season) => {
+  if (!season || !spot.seasons?.length) return 1
+  return spot.seasons.includes(season) ? 3 : 0
+}
+
+const getTypeScore = (spot, attractionTypes) => {
+  if (!attractionTypes.length) return 1
+  return spot.types?.some(type => attractionTypes.includes(type)) ? 4 : 0
+}
+
+const getAudienceScore = (spot, childCount, mobilityNeeds) => {
+  let score = 0
+  if (childCount > 0 && spot.types?.includes('family')) score += 2
+  if (mobilityNeeds === 'senior' && spot.types?.includes('senior')) score += 2
+  return score
+}
+
+const getPriorityScore = priority => {
+  const scores = { must: 5, high: 3, medium: 1, low: 0 }
+  return scores[priority] ?? 1
+}
+
+const rotateBySeason = (spots, season) => {
+  const seasonOffset = { spring: 0, summer: 1, autumn: 2, winter: 3 }[season] || 0
+  if (!spots.length) return spots
+  return [...spots.slice(seasonOffset), ...spots.slice(0, seasonOffset)]
+}
+
+const scoreGuideSpot = (spot, context) => (
+  getTypeScore(spot, context.attractionTypes) +
+  getSeasonScore(spot, context.season) +
+  getRouteScore(spot, context.routePreference) +
+  getAudienceScore(spot, context.childCount, context.mobilityNeeds) +
+  getPriorityScore(spot.priority)
+)
+
+const selectGuideSpots = (guide, neededSpotCount, context) => {
+  const scored = rotateBySeason(guide, context.season)
+    .map((spot, index) => ({ spot, index, score: scoreGuideSpot(spot, context) }))
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+
+  const positiveMatches = scored.filter(item => item.score > 0).map(item => item.spot)
+  const fallback = scored.map(item => item.spot)
+  const baseSelection = positiveMatches.length >= neededSpotCount ? positiveMatches : [...positiveMatches, ...fallback]
+  const selected = []
+
+  while (selected.length < neededSpotCount) {
+    const nextSpot = baseSelection[selected.length % baseSelection.length]
+    selected.push(nextSpot)
+  }
+
+  return selected
+}
+
+const buildPreferencePlan = trip => {
+  const playDays = clampNumber(trip.playDays, trip.days?.length || 3, 1, 14)
+  const people = clampNumber(trip.people, 2, 1, 30)
+  const adultCount = clampNumber(trip.adultCount, people, 0, people)
+  const childCount = clampNumber(trip.childCount, Math.max(0, people - adultCount), 0, people)
+  const attractionTypes = Array.isArray(trip.attractionTypes) && trip.attractionTypes.length
+    ? trip.attractionTypes
+    : ['city', 'shopping']
+  const mobilityNeeds = trip.mobilityNeeds || (childCount > 0 ? 'kids' : 'none')
+  const routePreference = trip.routePreference || 'mixed'
+  const season = trip.season || 'spring'
+  const specialRequests = String(trip.specialRequests || '').trim()
+  const spotsPerDay = getPreferenceSpotCount(trip.travelStyle, mobilityNeeds)
+  const neededSpotCount = playDays * spotsPerDay
+  const guide = getDestinationGuide(trip.destination)
+  const selectedGuideSpots = selectGuideSpots(guide, neededSpotCount, {
+    attractionTypes,
+    childCount,
+    mobilityNeeds,
+    routePreference,
+    season
+  })
+  const generatedCandidates = selectedGuideSpots.map((template, index) => {
+    const dayHint = Math.floor(index / spotsPerDay) + 1
+    return {
+      id: uuid(),
+      spotName: template.name,
+      category: template.category,
+      address: template.zone,
+      zone: template.zone,
+      durationMinutes: mobilityNeeds === 'senior' ? Math.min(template.duration, 90) : template.duration,
+      openTime: '09:00',
+      closeTime: '21:00',
+      priority: template.priority || getPreferencePriority(index, mobilityNeeds),
+      notes: [
+        `依偏好自動推薦：第 ${dayHint} 天安排在${template.zone}，符合${routePreference === 'classic' ? '第一次旅遊必去' : routePreference === 'hidden' ? '秘境探索' : '經典加私房'}路線。`,
+        specialRequests ? `使用者補充：${specialRequests}` : ''
+      ].filter(Boolean).join(' ')
+    }
+  })
+
+  const days = Array.from({ length: playDays }, (_, dayIndex) => {
+    const spotsForDay = generatedCandidates.slice(dayIndex * spotsPerDay, (dayIndex + 1) * spotsPerDay)
+    const plannedSpots = spotsForDay.reduce((spots, candidate) => {
+      const previousSpot = spots.at(-1)
+      const transportMinutes = getPreferenceTransportMinutes(previousSpot, candidate, trip.travelStyle)
+      const timeStart = previousSpot
+        ? addMinutes(previousSpot.timeEnd || previousSpot.time, transportMinutes)
+        : trip.dailyStartTime || '09:30'
+      const timeEnd = addMinutes(timeStart, candidate.durationMinutes)
+
+      spots.push({
+        ...candidate,
+        id: uuid(),
+        sourceCandidateId: candidate.id,
+        time: timeStart,
+        timeStart,
+        timeEnd,
+        transportMinutes,
+        transportNote: previousSpot
+          ? `依區域估算從「${previousSpot.address}」到「${candidate.address}」約 ${transportMinutes} 分鐘，實際可依大眾運輸或計程車再調整。`
+          : '今日第一站，建議依住宿位置選擇最近交通方式出發。',
+        aiReason: `根據 ${people} 人、${adultCount} 位大人、${childCount} 位小孩、${season} 季節、${routePreference} 路線與 ${trip.travelStyle || 'balanced'} 節奏安排。`
+      })
+
+      return spots
+    }, [])
+
+    return {
+      id: String(dayIndex + 1),
+      spots: plannedSpots
+    }
+  })
+
+  return {
+    provider: 'preference-mock',
+    summary: `已依 ${season} 季節、${routePreference} 路線與旅遊偏好產生 ${playDays} 天 ${Math.max(0, playDays - 1)} 夜行程草案，並以區域相近性、交通估算與${trip.travelStyle || 'balanced'}節奏安排。`,
+    candidateSpots: generatedCandidates.map(({ zone, ...candidate }) => candidate),
+    days
+  }
+}
+
 server.get('/trips', (req, res) => {
   const userId = getUserId(req)
   const user = router.db.get('users').find({ id: userId }).value()
@@ -281,8 +503,14 @@ server.post('/trips/:id/ai-plan', (req, res) => {
   const trip = findTripForRequest(req, res)
   if (!trip) return
   const tripWithPreferences = normalizeTrip({ ...trip, ...req.body })
-  const plan = buildMockPlan(tripWithPreferences)
-  const updatedTrip = normalizeTrip({ ...tripWithPreferences, days: plan.days })
+  const plan = tripWithPreferences.mode === 'preference'
+    ? buildPreferencePlan(tripWithPreferences)
+    : buildMockPlan(tripWithPreferences)
+  const updatedTrip = normalizeTrip({
+    ...tripWithPreferences,
+    candidateSpots: plan.candidateSpots || tripWithPreferences.candidateSpots,
+    days: plan.days
+  })
 
   router.db.get('trips').find({ id: trip.id }).assign(updatedTrip).write()
   return res.json({ ...plan, trip: updatedTrip })

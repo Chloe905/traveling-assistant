@@ -80,10 +80,20 @@ export interface AiPlanRequest {
   dailyStartTime: string
   dailyEndTime: string
   travelStyle: string
+  mode?: 'candidate' | 'preference'
+  people?: number
+  adultCount?: number
+  childCount?: number
+  playDays?: number
+  season?: 'spring' | 'summer' | 'autumn' | 'winter'
+  routePreference?: 'classic' | 'hidden' | 'mixed'
+  attractionTypes?: string[]
+  mobilityNeeds?: string
+  specialRequests?: string
 }
 
 export interface AiPlanResult {
-  provider: 'mock' | 'gemini-ready'
+  provider: 'mock' | 'gemini-ready' | 'preference-mock'
   summary: string
   days: TripDay[]
   trip: Trip
